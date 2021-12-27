@@ -1,0 +1,13 @@
+export HELM_REPO_TOKEN=AP9aPG5ADPKrcskhHC69744xFYk
+export DEVDIR=/repo/esecjos/workspace/code
+export PATH=$PATH:~/bin
+
+module add dos2unix/7.4.0
+
+alias .. cd ..
+alias ... cd ../..
+alias .... cd ../../..
+alias ..... cd ../../../..
+alias ...... cd ../../../../..
+alias vi vim
+alias dpidev cd $DEVDIR && setup_dpi
