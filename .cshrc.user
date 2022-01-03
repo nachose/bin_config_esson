@@ -6,19 +6,21 @@ alias ..... cd ../../../..
 alias ...... cd ../../../../..
 alias vi vim
 alias alco alfred -v compile
-alias dpidev cd $DEVDIR && setup_dpi
+alias dpidev 'cd $DEVDIR && setup_dpi'
 
 #Set dev dir
 setenv DEVDIR /repo/esecjos/workspace/code
 
-#Set artifactory token
+artifactory token
 setenv HELM_REPO_TOKEN AP9aPG5ADPKrcskhHC69744xFYk
 
 #Set path
-setenv PATH $PATH\:~/bin
+setenv PATH $PATH\:${HOME}/bin
 
 #Make backup of files
 ~/bin/backup.sh
 
 
 module add dos2unix/7.4.0
+module add tmux/3.2
+module add qtcreator/4.6.2
