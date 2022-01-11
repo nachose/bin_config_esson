@@ -1,15 +1,23 @@
 export HELM_REPO_TOKEN=AP9aPG5ADPKrcskhHC69744xFYk
 export DEVDIR=/repo/esecjos/workspace/code
+export CORES_DIR=/lab/epg_ft/teams/team_toberano
+export RELEASES_DIR=/lab/epg_scm19_builds/epg3/release/
 export PATH=$PATH:${HOME}/bin
 
-module add dos2unix/7.4.0
 
-alias .. cd ..
-alias ... cd ../..
-alias .... cd ../../..
-alias ..... cd ../../../..
-alias ...... cd ../../../../..
-alias vi vim
-alias dpidev 'cd $DEVDIR && setup_dpi'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias ......='cd ../../../../..'
+alias vi=vim
+alias dpidev='cd $DEVDIR && setup_dpi'
+alias grep='grep --color=always'
+
+module add dos2unix/7.4.0
 module add tmux/3.2
 module add qtcreator/4.6.2
+module add ctags/5.8
+module add vim/8.2.0834
+module add nodejs/12.18.3
+module add octave

@@ -1,0 +1,54 @@
+[include]
+        path = /env/PC/include/gitconfig
+        path = k:/include/gitconfig
+[scmcheck]
+	pcgitsetuprev = 2
+[user]
+	name = Jose Ignacio Seco
+	email = jose.ignacio.seco@ericsson.com
+[alias]
+	alias = config --global -l
+
+
+
+	l = log --pretty=format:'%h %Cred%ad %Cblue%an%Cgreen%d %Creset%s' --date=relative # --date=iso
+	showtags = log --no-walk --tags --pretty=format:'%h %Cgreen%d %Creset%s' --date=iso --decorate=full
+	last = log -1 HEAD --stat
+	st = status
+
+
+
+	reset1hard = reset --hard HEAD^
+	reset1soft = reset HEAD~1 --soft
+	resettomaster = reset --hard origin/master
+
+
+
+	co = checkout
+	amend = commit --amend
+	pushtomaster = push origin HEAD:refs/for/master
+	draftomaster = push origin HEAD:refs/drafts/master
+
+
+
+	submodulesupdate = submodule update --init --recursive --force
+	trackmaster = "!f() { git branch --set-upstream-to=origin/master ${1}; }; f"
+
+	#Push to current branch in gerrit
+	gpush = "!f() { git push origin HEAD:refs/for/${1}; }; f"
+
+    #Create private branch
+    ppush = "!f() { git push origin HEAD:refs/heads/prototype/private/esecjos/${1}; }; f"
+
+    #Configure cdpi-main fetch remote to mirror.
+    remotemiror = remote set-url --push origin ssh://selngerrit.mo.sw.ericsson.se:29418/pc/sasn/cdpi-main
+
+
+	se = !git rev-list --all | xargs git grep -F
+[core]
+	excludesfile = /home/esecjos/.gitignore_global
+	editor = vim
+
+
+[merge]
+	tool = kdiff3

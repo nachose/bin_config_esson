@@ -3,8 +3,8 @@ set loggin file gdb.output
 set logging on
 set debug-file-directory /home/esgops/lib
 show debug-file-directory
-directory /home/esgops/bin
-set solib-search-path /home/esgops/lib
+directory /repo/esecjos/workspace/code/
+set solib-search-path /repo/esecjos/workspace/code/
 set listsize 40
 set print symbol-filename on
 set print symbol on
@@ -29,3 +29,5 @@ brestore
 
 set print elements 300
 
+set substitute-path ../../ /repo/esecjos/workspace/code/epg/
+set substitute-path .build/IPOS_ssc/../../ /repo/esecjos/workspace/code/epg/
