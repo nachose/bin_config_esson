@@ -31,3 +31,4 @@ module add ctags/5.8
 module add vim/8.2.0834
 module add nodejs/12.18.3
 module add octave
+setenv RELEASES_DIR /lab/epg_scm19_builds/epg3/release/EPG_28R73FY01/common/unstripped

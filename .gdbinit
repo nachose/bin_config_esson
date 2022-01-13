@@ -1,7 +1,7 @@
 set pagination off
 set loggin file gdb.output
 set logging on
-set debug-file-directory /home/esgops/lib
+set debug-file-directory /repo/esecjos/workspace/code/
 show debug-file-directory
 directory /repo/esecjos/workspace/code/
 set solib-search-path /repo/esecjos/workspace/code/
@@ -29,5 +29,9 @@ brestore
 
 set print elements 300
 
-set substitute-path ../../ /repo/esecjos/workspace/code/epg/
-set substitute-path .build/IPOS_ssc/../../ /repo/esecjos/workspace/code/epg/
+#set substitute-path ../../ /repo/esecjos/workspace/code/epg/
+set substitute-path ./build/IPOS_ssc/../../ /repo/esecjos/workspace/code/epg/
+#set substitute-path ./build/IPOS_ssc/../.. .
+set history save on
+set history size 1000
+set history remove-duplicates 50

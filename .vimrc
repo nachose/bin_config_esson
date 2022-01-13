@@ -121,6 +121,8 @@ Plug '~/.vim/other_plugins/'
 Plug 'vim-scripts/OmniCppComplete'
 "Easier marks
 Plug 'kshenoy/vim-signature'
+"Vim gutter
+Plug 'airblade/vim-gitgutter'
 
 
 
@@ -176,6 +178,10 @@ let OmniCpp_SelectFirstItem     = 2 " select first item (but don't insert)
 let OmniCpp_NamespaceSearch     = 2 " search namespaces in this and included files
 let OmniCpp_ShowPrototypeInAbbr = 1 " show function prototype (i.e. parameters) in popup window
 let OmniCpp_LocalSearchDecl     = 1 " don't require special style of function opening braces
+
+"""""""""""""""""""""""""   Vim Signature configuration """"""""""""""""
+nnoremap mn ]`
+nnoremap mp [`
 
 
 
@@ -408,18 +414,6 @@ autocmd TabEnter    *.*   cd %:p:h/
 ":nnoremap <leader>diff :VCSDiff<cr>
 ":nnoremap <leader>bla :VCSAnnotate<cr>
 
-"Rainbow parenthesis plugin.
-"au VimEnter * RainbowParenthesesToggle
-"au Syntax * RainbowParenthesesLoadRound
-"au Syntax * RainbowParenthesesLoadSquare
-"au Syntax * RainbowParenthesesLoadBraces
-
-"Deactivate the plugin for now.
-":RaibowParenthesesActivate<CR>
-":RainbowParenthesesToggle<CR>
-
-
-
 "Set list of characters to be seen when using command :set list. Whatever is not this is then a simple whitespace
 :set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<
 
@@ -434,10 +428,5 @@ nnoremap [I [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
 "Map MRU to the same command but not in caps.
 "nnoremap :mru<CR> :MRU<CR>
 
-"Tabular plugin is loaded
-"let g:tabular_loaded = 1
-
-"Make tabularize be invoked by Tab
-":command Tab Tabularize<CR>
 
 
