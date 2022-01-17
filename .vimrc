@@ -1,3 +1,7 @@
+":profile start profile.log
+":profile func *
+":profile file *
+" At this point do slow actions
 
 "filetype plugin on       " enable plugins
 
@@ -60,6 +64,7 @@ set showmode             "show current mode.
 set nobackup             "do not backup files.
 set hlsearch             "highlight search"
 set tabpagemax =100      "100 tabs.
+set list                 "Que se vean los caracteres no visibles.
 syntax on                "syntax is active
 filetype on              "filetype detection
 
@@ -75,9 +80,9 @@ set nu                   "line numbers in the left
 "pliegues activados.
 set foldenable
 "activar plegado por tabulación.
-"set foldmethod=indent
+set foldmethod=indent
 "activar plegado manual.
-set foldmethod=manual
+"set foldmethod=manual
 "nivel de plegado a partir de 1 tabulación.
 set foldlevel=10
 
@@ -139,6 +144,8 @@ Plug 'joshdick/onedark.vim'
 call plug#end()
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+inoremap <c-tab> <c-r>=CompleteTab()<cr>
+
 set background=dark
 colorscheme vividchalk
 "colorscheme onedark
@@ -164,6 +171,10 @@ set completeopt=menu,menuone,preview
 """"""" NerdTree config """""
 nnoremap <F2> :NERDTreeToggle<CR>
 
+"""""" gitgutter config """""
+nnoremap <leader>gn <Plug>(GitGutterNextHunk)
+nnoremap <leader>gp <Plug>(GitGutterPrevHunk)
+
 """"""" CtrlP config """"""""
 let g:ctrlp_prompt_mappings = {
     \ 'AcceptSelection("e")': ['<C-e>'],
@@ -185,7 +196,6 @@ nnoremap mp [`
 
 
 
-inoremap <c-tab> <c-r>=CompleteTab()<cr>
 
 """""""""""""" Taglist options """"""
 nnoremap <silent> <F6> :TlistToggle<CR>
@@ -260,8 +270,6 @@ nnoremap te :tabedit %<CR>
 
 "Ver también los caracteres no visibles.
 "set list
-"Que no se vean los caracteres no visibles.
-set nolist
 
 let mapleader = "_"
 
@@ -385,10 +393,10 @@ let g:Tlist_Ctags_Cmd = '/usr/bin/ctags'
 let g:Tlist_WinWidth = 50
 
 "Autocomplete menu colors.
-:highlight Pmenu guibg=CornflowerBlue
-:highlight Pmenu guifg=Black
-:highlight PmenuSel guibg=Black
-:highlight PmenuSel guifg=CornflowerBlue
+":highlight Pmenu guibg=CornflowerBlue
+":highlight Pmenu guifg=Black
+":highlight PmenuSel guibg=Black
+":highlight PmenuSel guifg=CornflowerBlue
 
 "Create doxygen header of function.
 :nnoremap <leader>d :Dox<CR>
@@ -428,5 +436,5 @@ nnoremap [I [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
 "Map MRU to the same command but not in caps.
 "nnoremap :mru<CR> :MRU<CR>
 
-
-
+":profile pause
+":noautocmd qall!

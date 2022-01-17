@@ -1,9 +1,11 @@
 #!/bin/bash 
 
-cp ~/.cshrc.user .
-cp ~/.bashrc.user .
-cp ~/.gdbinit .
-cp ~/.gitconfig .
-cp ~/.vimrc .
+BIN_DIR=/home/esecjos/bin
+
+cp ~/.cshrc.user $BIN_DIR 
+cp ~/.bashrc.user $BIN_DIR
+cp ~/.gdbinit $BIN_DIR 
+cp ~/.gitconfig $BIN_DIR
+cp ~/.vimrc $BIN_DIR
 
 

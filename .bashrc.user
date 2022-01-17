@@ -10,7 +10,7 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
-alias vi=vim
+alias vi=vim -X
 alias dpidev='cd $DEVDIR && setup_dpi'
 alias grep='grep --color=always'
 

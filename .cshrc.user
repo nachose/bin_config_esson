@@ -4,7 +4,7 @@ alias ... cd ../..
 alias .... cd ../../..
 alias ..... cd ../../../..
 alias ...... cd ../../../../..
-alias vi vim
+alias vi vim -X
 alias alco alfred -v compile
 alias dpidev 'cd $DEVDIR && setup_dpi'
 alias grep 'grep --color=always'
@@ -22,6 +22,7 @@ setenv PATH $PATH\:${HOME}/bin
 
 #Make backup of files
 ~/bin/backup.sh
+~/bin/copy_files.bash
 
 
 module add dos2unix/7.4.0
