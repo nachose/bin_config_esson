@@ -11,8 +11,10 @@ alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
 alias vi=vim -X
-alias dpidev='cd $DEVDIR && setup_dpi'
 alias grep='grep --color=always'
+alias begin_dev='cd $DEVDIR && cd cdpi-main && setup_dpi'
+alias begin_epg='cd $DEVDIR && cd epg && setup_workspace'
+alias begin_pcg='cd $DEVDIR && cd epg && setup_workspace -d'
 
 module add dos2unix/7.4.0
 module add tmux/3.2
@@ -21,3 +23,4 @@ module add ctags/5.8
 module add vim/8.2.0834
 module add nodejs/12.18.3
 module add octave
+setenv DIR_LOGS_EXECS /lab/epg_st_portal_logs

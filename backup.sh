@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash 
 
 route=/home/esecjos/backup
 filename=${route}/backup_$(date +%j).tar

@@ -6,15 +6,16 @@ alias ..... cd ../../../..
 alias ...... cd ../../../../..
 alias vi vim -X
 alias alco alfred -v compile
-alias dpidev 'cd $DEVDIR && setup_dpi'
 alias grep 'grep --color=always'
 
 #Set dev dir
 setenv DEVDIR /repo/esecjos/workspace/code
 setenv CORES_DIR /lab/epg_ft/teams/team_toberano
 setenv RELEASES_DIR /lab/epg_scm19_builds/epg3/release/
+setenv CDPI_DIR ${DEVDIR}/cdpi-main
+setenv EPG_DIR ${DEVDIR}/epg
 
-artifactory token
+#artifactory token
 setenv HELM_REPO_TOKEN AP9aPG5ADPKrcskhHC69744xFYk
 
 #Set path
@@ -23,6 +24,15 @@ setenv PATH $PATH\:${HOME}/bin
 #Make backup of files
 ~/bin/backup.sh
 ~/bin/copy_files.bash
+
+alias begin_dpi 'cd $DEVDIR && cd cdpi-main && setup_dpi'
+alias begin_epg 'cd $DEVDIR && cd epg && setup_workspace'
+alias begin_pcg 'cd $DEVDIR && cd epg && setup_workspace -d'
+alias bob_bob 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob'
+alias bob_push 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob push'
+alias bob_build 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob build'
+alias bob_init 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob init generate pull'
+
 
 
 module add dos2unix/7.4.0
@@ -33,3 +43,7 @@ module add vim/8.2.0834
 module add nodejs/12.18.3
 module add octave
 setenv RELEASES_DIR /lab/epg_scm19_builds/epg3/release/EPG_28R73FY01/common/unstripped
+setenv DIR_LOGS_EXECS /lab/epg_st_portal_logs
+module add cppcheck/2.6
+module add clang/13.0.0
+module add fzf

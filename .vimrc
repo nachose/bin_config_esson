@@ -68,6 +68,9 @@ set list                 "Que se vean los caracteres no visibles.
 syntax on                "syntax is active
 filetype on              "filetype detection
 
+set mouse=a              "Allow navigate tags with mouse
+set switchbuf+=usetab,newtab "Use tab that already exists while changing, new tab when opening new buffer
+
 
 set backspace=indent,start,eol   "indent ->allows to delete indents
 "eol    ->allows to delete line breaks.
@@ -128,6 +131,10 @@ Plug 'vim-scripts/OmniCppComplete'
 Plug 'kshenoy/vim-signature'
 "Vim gutter
 Plug 'airblade/vim-gitgutter'
+"Airline, plugin for statusline
+Plug 'vim-airline/vim-airline'
+"Another fuzzy finder
+Plug 'Shougo/unite.vim'
 
 
 
@@ -148,9 +155,8 @@ inoremap <c-tab> <c-r>=CompleteTab()<cr>
 
 set background=dark
 colorscheme vividchalk
-"colorscheme onedark
-"set guifont=Consolas:h14:b:cANSI
-"set guifont=Monospace\ Bold:h14:b:cANSI
+"Open quicfix items in new tab
+autocmd FileType qf nnoremap <buffer> <Enter> <C-W><Enter><C-W>T
 
 
 "Generation of tags
@@ -169,16 +175,16 @@ set tags+=./tags
 set completeopt=menu,menuone,preview
 
 """"""" NerdTree config """""
-nnoremap <F2> :NERDTreeToggle<CR>
-
-"""""" gitgutter config """""
-nnoremap <leader>gn <Plug>(GitGutterNextHunk)
-nnoremap <leader>gp <Plug>(GitGutterPrevHunk)
+nnoremap <F2> :NERDTreeToggle %<CR>
+"Show hidden files
+let NERDTreeShowHidden=1
 
 """"""" CtrlP config """"""""
 let g:ctrlp_prompt_mappings = {
     \ 'AcceptSelection("e")': ['<C-e>'],
     \ 'AcceptSelection("t")': ['<Cr>'],}
+"Start search from the directory where you started Vim
+let g:ctrlp_working_path_mode ='rw' 
 
 " --- OmniCppComplete ---
 " -- configs --
@@ -202,8 +208,8 @@ nnoremap <silent> <F6> :TlistToggle<CR>
 
 
 "Mapas de distintas teclas
-noremap <F8> : mksession! /home/jose-seco/dev/nacho_vim_session<CR> 
-noremap <F9> : source     /home/jose-seco/dev/nacho_vim_session<CR>
+noremap <F3> : mksession! /home/esecjos/nacho_vim_session<CR> 
+noremap <F4> : source     /home/esecjos/nacho_vim_session<CR>
 
 "set backupdir =C:\temp
 set noswapfile   "no generar archivos de swap. Si se va la luz me quedo sin los cambios, pero es menos molesto.
@@ -236,12 +242,13 @@ nnoremap <C-n> :tabe<CR>
 " Barra de status.
 " """"""""""""""""""""""""""""""""""""
 "Poner el formato a la status line.
-set statusline=%F%m%r%h%w\ [format=%{&ff}]\ [type=%Y]\ [ascii=\%03.3b]\ [hex=\%02B]\ [pos=%04l,%04v]\ [%p%%]\ [len=%L]
+"set statusline=%F%m%r%h%w\ [format=%{&ff}]\ [type=%Y]\ [ascii=\%03.3b]\ [hex=\%02B]\ [pos=%04l,%04v]\ [%p%%]\ [len=%L]
 "Hacer la barra de status visible.
-set laststatus=2
+"set laststatus=2
 "Hacer la barra de status invisible.
 "set laststatus=0
-""""""""""""""""""""""""""""""""""""""
+
+"""""""""""""""""""""""""""""""""""""""
 
 " """"""""""""""""""""""""""""""""
 " Marcadores de linea y columna.
@@ -290,8 +297,10 @@ let g:alternateExtensions_c = "h"
 let g:alternateExtensions_C = "H"
 let g:alternateExtensions_cxx = "h"
 
-let g:alternateSearchPath = 'sfr:../source,sfr:../src,sfr:../include,sfr:../inc'
+let g:alternateSearchPath = 'sfr:../source,sfr:../src,sfr:../include,sfr:../inc,../include/*'
 
+"""""" grep configuration """"""
+command! -nargs=+ Mygrep execute 'silent grep! --color=never <args>' | copen 7
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -361,20 +370,28 @@ nnoremap <leader>sv :source $MYVIMRC<CR>
 :nnoremap <leader>rwr :!chmod a+w %<cr>:edit<cr>
 
 "Syntastic
+"Copied from help
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 "Disable includes.
-let g:syntastic_cpp_no_include_search = 1
+"let g:syntastic_cpp_no_include_search = 1
 "Disable default includes.
 "Check on open and on save.
 let g:syntastic_check_on_open=1
 "Error in command line.
 let g:syntastic_echo_current_error=1
 "
-"int count = FILLING_RULE::RecordCount( );
-let g:syntastic_cpp_no_default_include_dirs = 1
+"let g:syntastic_cpp_no_default_include_dirs = 1
 "Delete include errors.
 let g:syntastic_cpp_remove_include_errors = 1
+let g:syntastic_c_remove_include_errors = 1
 "Set syntastic checkers.
-let g:syntastic_cpp_checkers = ['cppcheck', 'cpplint', 'clang-tidy', 'clang-check','gcc']
+let g:syntastic_c_checkers = ['cppcheck', 'clang-tidy', 'clang-check','gcc']
+let g:syntastic_cpp_checkers = ['cppcheck', 'clang-tidy', 'clang-check','gcc']
 
 "Args for cpplint here.
 let g:syntastic_cpp_cpplint_args = "--filter=-whitespace,-build/include_order,-build/include"
@@ -406,21 +423,17 @@ let g:DoxygenToolkit_paramTag_post = " [in] "
 "cd c:\workcopy\ForanDesa\src\
 
 "Try to get the correct directory.
-autocmd BufReadPost *.cpp cd %:p:h/
-autocmd BufReadPost *.cc  cd %:p:h/
-autocmd BufReadPost *.h   cd %:p:h/
-autocmd BufReadPost *.hh  cd %:p:h/
-autocmd BufReadPost *.c   cd %:p:h/
-autocmd BufReadPost *.qs  cd %:p:h/
-autocmd BufReadPost *.fcs cd %:p:h/
-autocmd TabEnter    *.*   cd %:p:h/
+"autocmd BufReadPost *.cpp cd %:p:h/
+"autocmd BufReadPost *.cc  cd %:p:h/
+"autocmd BufReadPost *.h   cd %:p:h/
+"autocmd BufReadPost *.hh  cd %:p:h/
+"autocmd BufReadPost *.c   cd %:p:h/
+"autocmd BufReadPost *.qs  cd %:p:h/
+"autocmd BufReadPost *.fcs cd %:p:h/
+"autocmd TabEnter    *.*   cd %:p:h/
 
 "Save automatically all files when focus lost.
 :au FocusLost * silent! wa
-
-"Commands for differences svn.
-":nnoremap <leader>diff :VCSDiff<cr>
-":nnoremap <leader>bla :VCSAnnotate<cr>
 
 "Set list of characters to be seen when using command :set list. Whatever is not this is then a simple whitespace
 :set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<
@@ -438,3 +451,13 @@ nnoremap [I [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
 
 ":profile pause
 ":noautocmd qall!
+"
+"""""""""""""""""""" Unite.vim config """""""""""""
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+nnoremap <leader>r :<C-u>Unite -start-insert file_rec<CR> 
+
+
+"""""" gitgutter config """""
+nnoremap <leader>gn <Plug>(GitGutterNextHunk)
+nnoremap <leader>gp <Plug>(GitGutterPrevHunk)
+
