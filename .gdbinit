@@ -1,4 +1,6 @@
 set pagination off
+#Autoload local .gdbinit if there is one.
+set auto-load local-gdbinit on
 set loggin file gdb.output
 set logging on
 set debug-file-directory /repo/esecjos/workspace/code/

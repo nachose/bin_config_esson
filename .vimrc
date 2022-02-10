@@ -148,6 +148,8 @@ Plug 'mhinz/vim-startify'
 Plug 'yegappan/mru'
 "Better gf (go to file)
 Plug 'amix/open_file_under_cursor.vim'
+"NERDcommenter
+Plug 'preservim/nerdcommenter'
 
 
 "Some colorschemes"
@@ -184,9 +186,13 @@ noremap <C-x><C-t> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR><CR>
 set tags+=./tags
 
 "Remap _tag to do a lookup tag
-nnoremap <leader>tag yiw:tag <C-r>"<CR>
+"nnoremap <leader>tag yiw:tag <C-r>"<CR>
+"Remap to lookup a tag and open in other tag
+nnoremap <leader>tag :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 "Remap _ptag to make a preview tag
 nnoremap <leader>ptag yiw:ptag <C-r>"<CR>
+"Remap _psearch to see definition of symbol in window
+nnoremap <leader>p .psearch <C-R><C-W><CR>
 "Open tag in new tab
 map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 "Open tag in new split
@@ -201,7 +207,7 @@ nnoremap <F2> :NERDTreeToggle %<CR>
 "Show hidden files
 let NERDTreeShowHidden= 1
 "Close nerdtree after opening a file.
-let g:NERDTreeQuitOnOpen = 1
+let g:NERDTreeQuitOnOpen = 2
 
 
 
@@ -339,6 +345,40 @@ nnoremap <leader>rv  :call RenameVariable()<CR>
 nnoremap <leader>lvp :call LocalVariableToParameter()<CR>
 vnoremap <leader>em  :call ExtractMethod()<CR>
 
+
+""""""""""""""""""""""""" NERDcommenter """"""""""""""""""""""
+" Create default mappings: Do not create, as they start by _c, as the vcs plugin
+let g:NERDCreateDefaultMappings = 0
+"
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+"
+" " Use compact syntax for prettified multi-line comments
+let g:NERDCompactSexyComs = 1
+"
+" Align line-wise comment delimiters flush left instead of following code
+" indentation
+let g:NERDDefaultAlign = 'left'
+"
+" Set a language to use its alternate delimiters by default
+let g:NERDAltDelims_java = 1
+let g:NERDAltDelims_cpp = 1
+"
+" Add your own custom formats or override the defaults
+let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
+"
+" Allow commenting and inverting empty lines (useful when commenting a
+" region)
+let g:NERDCommentEmptyLines = 1
+"
+" Enable trimming of trailing whitespace when uncommenting
+let g:NERDTrimTrailingWhitespace = 1
+"
+" Enable NERDCommenterToggle to check all selected lines is commented or not 
+let g:NERDToggleCheckAllLines = 1
+"Map to toggle comment.
+nnoremap <leader>rr :NERDCommenterToggle<CR>
+
 "Select inner word.
 nnoremap <space> viw
 "Lower line one line.
@@ -392,7 +432,7 @@ nnoremap <leader>sv :source $MYVIMRC<CR>
 "no higlight mapped to _nh
 :nnoremap _nh :noh<cr>
 "close all tabs.
-:nnoremap <leader>ca :tabdo tabc<cr>
+:nnoremap <leader>tca :tabdo tabc<cr>
 "remove writing restrictios for this file.
 :nnoremap <leader>rwr :!chmod a+w %<cr>:edit<cr>
 
@@ -402,6 +442,7 @@ set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 "let g:syntastic_always_populate_loc_list = 1
 "let g:syntastic_auto_loc_list = 1
+let g:syntastic_agregate_errors = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 "Disable includes.
@@ -423,7 +464,7 @@ let g:syntastic_cpp_checkers = ['cppcheck', 'clang-tidy', 'clang-check','gcc']
 "Args for cpplint here.
 let g:syntastic_cpp_cpplint_args = "--filter=-whitespace,-build/include_order,-build/include"
 
-let g:syntastic_cpp_gcc_args = "-Wmissing-include-dirs -std=c++14"
+let g:syntastic_cpp_gcc_args = "-Wmissing-include-dirs -std=c++17"
 
 "Show errors for all checkers.
 let g:syntastic_aggregate_errors = 1
@@ -513,3 +554,20 @@ cmap <Esc>[1;2C <S-Right>
 "Do not change to dir, and change to vcs root
 let g:startify_change_to_dir = 0
 let g:startify_change_to_vcs_root = 1
+
+"Bracketed paste mode, to avoid strange characters while pasting to command line
+set t_BE=
+
+"For c or cpp files, set ending spaces as errors
+let c_space_errors = 1
+"For java files, set ending spaces as errors.
+let java_space_errors = 1
+"For c and cpp files, do not see space errors in front of tabs.
+let c_no_tab_space_error = 1
+
+"Set term xterm, to avoid some errors that were making some of the mappings
+"not to work 
+set term=xterm
+
+
+
