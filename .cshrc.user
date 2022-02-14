@@ -14,6 +14,8 @@ setenv CORES_DIR /lab/epg_ft/teams/team_toberano
 setenv RELEASES_DIR /lab/epg_scm19_builds/epg3/release/
 setenv CDPI_DIR ${DEVDIR}/cdpi-main
 setenv EPG_DIR ${DEVDIR}/epg
+setenv EDITOR vim
+setenv VISUAL vim
 
 #artifactory token
 setenv HELM_REPO_TOKEN AP9aPG5ADPKrcskhHC69744xFYk
@@ -33,6 +35,7 @@ alias begin_pcg 'cd $DEVDIR && cd epg && setup_workspace -d'
 alias bob_bob 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob'
 alias bob_push 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob push'
 alias bob_build 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob build'
+alias bob_debug 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob -p build-type=Debug generate build'
 alias bob_init 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob init generate pull'
 
 
