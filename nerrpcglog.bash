@@ -10,4 +10,4 @@ log_dir_path=${log_dir}/${log_dir_name}
 #This actually removes all escape sequences, not only color codes
 sed -i 's/\x1b\[[0-9;]*[a-zA-Z]//g'  ${log_dir_path}
 
-grep -rIi -B1 -A1 '\<error\>' ${log_dir_path} | less
+grep --color=always -rIi -B1 -A1 '\<error\>' ${log_dir_path} | less -R

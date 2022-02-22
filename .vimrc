@@ -68,6 +68,7 @@ set nobackup             "do not backup files.
 set hlsearch             "highlight search"
 set tabpagemax =100      "100 tabs.
 set list                 "Que se vean los caracteres no visibles.
+set cursorline           "Highlight current line
 syntax on                "syntax is active
 filetype on              "filetype detection
 
@@ -207,7 +208,7 @@ nnoremap <F2> :NERDTreeToggle %<CR>
 "Show hidden files
 let NERDTreeShowHidden= 1
 "Close nerdtree after opening a file.
-let g:NERDTreeQuitOnOpen = 2
+let g:NERDTreeQuitOnOpen = 1
 
 
 
@@ -568,6 +569,12 @@ let c_no_tab_space_error = 1
 "Set term xterm, to avoid some errors that were making some of the mappings
 "not to work 
 set term=xterm
+"Fix backspace
+:if &term == "xterm"
+:  set t_kD=^V<Delete>
+:endif
 
-
-
+"Add current line to matched ones
+:nnoremap <silent> <Leader>hl :call matchadd('Search', '\%'.line('.').'l')<CR>
+"Add current column to matched ones
+:nnoremap <silent> <Leader>hc :execute matchadd('Search', '\%'.virtcol('.').'v/')<CR>

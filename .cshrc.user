@@ -52,3 +52,5 @@ module add fzf/0.28.0
 module add ripgrep
 module add ag/2.1.0
 module add vim/8.2.0834
+setenv handler_text_exec_dir /repo/esecjos/workspace/code/cdpi-main/cmake_build/epg/NSDpfcphandler/test/handler
+module add duplo/0.7.0
