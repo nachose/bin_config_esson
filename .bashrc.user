@@ -3,27 +3,40 @@ export DEVDIR=/repo/esecjos/workspace/code
 export CORES_DIR=/lab/epg_ft/teams/team_toberano
 export RELEASES_DIR=/lab/epg_scm19_builds/epg3/release/
 export PATH=$PATH:${HOME}/bin
-export DIR_LOGS_EXECS /lag/epg_st_portal_logs
+export DIR_LOGS_EXECS=/lag/epg_st_portal_logs
+export handler_text_exec_dir=/repo/esecjos/workspace/code/cdpi-main/cmake_build/epg/NSDpfcphandler/test/handler
 export EDITOR=vim
 export VISUAL=vim
 
 
-alias ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
-alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
-alias vi=vim -X
-alias grep='grep --color=always'
+alias .....='cd ../../../..'
+alias ....='cd ../../..'
+alias ...='cd ../..'
+alias ..='cd ..'
+alias alco alfred -v compile
 alias begin_dev='cd $DEVDIR && cd cdpi-main && setup_dpi'
-alias begin_epg='cd $DEVDIR && cd epg && setup_workspace'
-alias begin_pcg='cd $DEVDIR && cd epg && setup_workspace -d'
+alias begin_dpi 'cd $DEVDIR && cd cdpi-main && setup_dpi'
+alias begin_epg 'cd $DEVDIR && cd epg && setup_workspace'
+alias begin_pcg 'cd $DEVDIR && cd epg && setup_workspace -d'
+alias bob_bob 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob'
+alias bob_build 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob build'
+alias bob_debug 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob -p build-type=Debug generate build'
+alias bob_init 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob init generate pull'
+alias bob_push 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob push'
+alias grep='grep --color=always'
+alias vi vim -X
 
-module add dos2unix/7.4.0
-module add tmux/3.2
-module add qtcreator/4.6.2
+module add ag/2.1.0
+module add clang/13.0.0
+module add cppcheck/2.6
 module add ctags/5.8
-module add vim/8.2.0834
+module add dos2unix/7.4.0
+module add duplo/0.7.0
+module add fzf/0.28.0
 module add nodejs/12.18.3
 module add octave
-setenv DIR_LOGS_EXECS /lab/epg_st_portal_logs
+module add qtcreator/4.6.2
+module add ripgrep
+module add tmux/3.2
+module add vim/8.2.0834

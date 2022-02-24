@@ -9,10 +9,12 @@
 [alias]
     alias = config --global -l
 
-    l = log --pretty=format:'%h %Cred%ad %Cblue%an%Cgreen%d %Creset%s' --date=relative # --date=iso
+    l = log --pretty=format:'%h %Cred%ad %Cblue %an %Cgreen%d %Creset%s' --date=relative # --date=iso
     showtags = log --no-walk --tags --pretty=format:'%h %Cgreen%d %Creset%s' --date=iso --decorate=full
     last = log -1 HEAD --stat
     st = status
+    logol = log --oneline
+    logg  = log --oneline --graph
 
 
 
@@ -51,4 +53,8 @@
 
 
 [merge]
-	tool = kdiff3
+    #tool = kdiff3
+    tool = vimdiff
+    conflictstyle = diff3
+[mergetool]
+	prompt = false

@@ -7,6 +7,14 @@ alias ...... cd ../../../../..
 alias vi vim -X
 alias alco alfred -v compile
 alias grep 'grep --color=always'
+alias begin_dpi 'cd $DEVDIR && cd cdpi-main && setup_dpi'
+alias begin_epg 'cd $DEVDIR && cd epg && setup_workspace'
+alias begin_pcg 'cd $DEVDIR && cd epg && setup_workspace -d'
+alias bob_bob 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob'
+alias bob_push 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob push'
+alias bob_build 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob build'
+alias bob_debug 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob -p build-type=Debug generate build'
+alias bob_init 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob init generate pull'
 
 #Set dev dir
 setenv DEVDIR /repo/esecjos/workspace/code
@@ -29,14 +37,6 @@ setenv DIR_LOGS_EXECS /lab/epg_st_portal_logs
 ~/bin/backup.sh
 ~/bin/copy_files.bash
 
-alias begin_dpi 'cd $DEVDIR && cd cdpi-main && setup_dpi'
-alias begin_epg 'cd $DEVDIR && cd epg && setup_workspace'
-alias begin_pcg 'cd $DEVDIR && cd epg && setup_workspace -d'
-alias bob_bob 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob'
-alias bob_push 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob push'
-alias bob_build 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob build'
-alias bob_debug 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob -p build-type=Debug generate build'
-alias bob_init 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob init generate pull'
 
 
 

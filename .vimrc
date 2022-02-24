@@ -34,7 +34,7 @@ function MyDiff()
 endfunction
 
 " Setup the tab key to do autocompletion
-function! CompleteTab()   
+function! CompleteTab()
   let prec = strpart( getline('.'), 0, col('.')-1 )
   if prec =~ '^\s*$' || prec =~ '\s$'
     return "\<tab>"
@@ -45,6 +45,7 @@ endfunction
 
 "leadr is _
 let mapleader = "_"
+
 
 set incsearch            "incremental search
 set ignorecase           "ignore case in searchs
@@ -68,7 +69,6 @@ set nobackup             "do not backup files.
 set hlsearch             "highlight search"
 set tabpagemax =100      "100 tabs.
 set list                 "Que se vean los caracteres no visibles.
-set cursorline           "Highlight current line
 syntax on                "syntax is active
 filetype on              "filetype detection
 
@@ -105,8 +105,6 @@ call plug#begin('~/.vim/plugged')
 Plug 'scrooloose/nerdtree'
 "Sensible defaults
 Plug 'tpope/vim-sensible'
-"Ctrl-p fuzzy finder
-"Plug 'kien/ctrlp.vim'
 "C/C++ ide
 Plug 'WolfgangMehner/c-support'
 "Bash ide
@@ -122,7 +120,7 @@ Plug 'dantler/vim-alternate'
 "Syntastic syntax checking
 Plug 'vim-syntastic/syntastic'
 "Rainbow parentheses
-Plug 'frazrepo/vim-rainbow'
+"Plug 'frazrepo/vim-rainbow'
 "Autocomplete, not from github
 Plug '~/.vim/plugged/autocomplpop/'
 "VCScommands, not from github
@@ -137,10 +135,6 @@ Plug 'kshenoy/vim-signature'
 Plug 'airblade/vim-gitgutter'
 "Airline, plugin for statusline
 Plug 'vim-airline/vim-airline'
-"Another fuzzy finder
-"Plug 'Shougo/unite.vim'
-"FZF fuzzy finder
-Plug 'junegunn/fzf'
 "FZF mappings
 Plug 'junegunn/fzf.vim'
 "Vim startify
@@ -149,8 +143,20 @@ Plug 'mhinz/vim-startify'
 Plug 'yegappan/mru'
 "Better gf (go to file)
 Plug 'amix/open_file_under_cursor.vim'
-"NERDcommenter
-Plug 'preservim/nerdcommenter'
+"Autoreload
+Plug 'djoshea/vim-autoread'
+"vim-commentary
+Plug 'tpope/vim-commentary'
+"Additional c++ syntaxk highlight
+Plug 'octol/vim-cpp-enhanced-highlight'
+"Rainbow parentheses
+Plug 'kien/rainbow_parentheses.vim'
+"Better whitespace highlight
+Plug 'ntpeters/vim-better-whitespace'
+"gv git commit browser
+Plug 'junegunn/gv.vim'
+"fugitive, is needed by gv
+Plug 'tpope/vim-fugitive'
 
 
 "Some colorschemes"
@@ -173,13 +179,15 @@ colorscheme vividchalk
 "Open quicfix items in new tab
 autocmd FileType qf nnoremap <buffer> <Enter> <C-W><Enter><C-W>T
 
+noremap <C-x><C-x><C-T> :!ctags -R --c-kinds=+px --c++-kinds=+p --fields=+iaSKns --extra=+qf --exclude='*.js' --exclude='*.jpg' --exclude='*.so' --exclude='buildout' --exclude='3pp' --exclude='tools' -f /home/esecjos/tags/tags_cpp /repo/esecjos/workspace/code/
 
 "Generation of tags
-noremap <C-x><C-x><C-T> :!ctags -R --c-kinds=+px --c++-kinds=+p --fields=+iaSKns --extra=+qf --exclude='*.js' --exclude='*.jpg' --exclude='*.so' --exclude='buildout' -f /home/esecjos/tags/tags_cpp /repo/esecjos/workspace/code/
 "noremap <C-x><C-x><C-T> :!ctags -R --c-kinds=+px --c++-kinds=+p --fields=+iaS --extra=+q --exclude='*.js' --exclude='*.jpg' --exclude='*.so' --exclude='epg' -f /home/esecjos/tags/tags_cpp /repo/esecjos/workspace/code/
 set tags+=/home/esecjos/tags/tags_cpp
 noremap <C-x><C-x><C-L> :!ctags -R --c++-kinds=+p --fields=+iaSKns --extra=+qf -f /home/esecjos/tags/tags_std_library /proj/epg-tools/compilers/ericsson-clang9.0.1-008cfeee88-rhel7.6-binutils2.32-stdlibgcc9.2.0/include/c++/9.2.0
 set tags+=/home/esecjos/tags/tags_std_library
+noremap <C-x><C-x><C-N> :!ctags --c-kinds=+px --c++-kinds=+p --fields=+iaSKns --extra=+qf -f /home/esecjos/tags/tags_c_library /usr/include
+set tags+=/home/esecjos/tags/tags_c_library
 " -- ctags --
 " noremap <ctrl-x>+<ctrl-t> to generate ctags for current folder:
 noremap <C-x><C-t> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR><CR>
@@ -189,11 +197,11 @@ set tags+=./tags
 "Remap _tag to do a lookup tag
 "nnoremap <leader>tag yiw:tag <C-r>"<CR>
 "Remap to lookup a tag and open in other tag
-nnoremap <leader>tag :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
+nnoremap <leader>ta :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 "Remap _ptag to make a preview tag
-nnoremap <leader>ptag yiw:ptag <C-r>"<CR>
+nnoremap <leader>pta yiw:ptag <C-r>"<CR>
 "Remap _psearch to see definition of symbol in window
-nnoremap <leader>p .psearch <C-R><C-W><CR>
+"nnoremap <leader>pw _psearch <C-R><C-W><CR>
 "Open tag in new tab
 map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 "Open tag in new split
@@ -233,14 +241,46 @@ let OmniCpp_ShowPrototypeInAbbr = 1 " show function prototype (i.e. parameters) 
 let OmniCpp_LocalSearchDecl     = 1 " don't require special style of function opening braces
 
 """""""""""""""""""""""""   Vim Signature configuration """"""""""""""""
-nnoremap mn ]`
-nnoremap mp [`
-
+let g:SignatureMap = {
+    \ 'Leader'             :  "m",
+    \ 'PlaceNextMark'      :  "m,",
+    \ 'ToggleMarkAtLine'   :  "m.",
+    \ 'PurgeMarksAtLine'   :  "m-",
+    \ 'DeleteMark'         :  "dm",
+    \ 'PurgeMarks'         :  "m<Space>",
+    \ 'PurgeMarkers'       :  "m<BS>",
+    \ 'GotoNextLineAlpha'  :  "']",
+    \ 'GotoPrevLineAlpha'  :  "'[",
+    \ 'GotoNextSpotAlpha'  :  "`]",
+    \ 'GotoPrevSpotAlpha'  :  "`[",
+    \ 'GotoNextLineByPos'  :  "]'",
+    \ 'GotoPrevLineByPos'  :  "['",
+    \ 'GotoNextSpotByPos'  :  "mn",
+    \ 'GotoPrevSpotByPos'  :  "mp",
+    \ 'GotoNextMarker'     :  "]-",
+    \ 'GotoPrevMarker'     :  "[-",
+    \ 'GotoNextMarkerAny'  :  "]=",
+    \ 'GotoPrevMarkerAny'  :  "[=",
+    \ 'ListBufferMarks'    :  "m/",
+    \ 'ListBufferMarkers'  :  "m?"
+    \ }
+"nnoremap mn ]`
+"nnoremap mp [`
+let g:SignatureWrapJumps = 1
+let b:SignatureWrapJumps = 1
 
 
 
 """""""""""""" Taglist options """"""
-nnoremap <silent> <F6> :TlistToggle<CR>
+nnoremap <F5> :TlistToggle<CR>
+
+"""""""""""""" GV options, git commit browser """"""""
+"Log of commits
+nnoremap <F6> :GV<CR>
+"Commits for this file
+nnoremap <F7> :GV!<CR>
+"Create quickfix list with revisions of this file
+nnoremap <F8> :GV?<CR>
 
 
 """"Sesiones"""""
@@ -262,6 +302,11 @@ autocmd BufRead *.vim set syntax=vim
 autocmd BufRead *.sh set syntax=sh
 autocmd BufRead *.bash set syntax=bash
 au BufRead *.html set filetype=htmlm4  "Syntax of html + javascript
+"Change colorscheme when entering and leaving insert mode
+"autocmd InsertEnter * :colorscheme onedark
+"autocmd InsertLeave * :colorscheme vividchalk
+autocmd InsertEnter * set cursorcolumn
+autocmd InsertLeave * set nocursorcolumn
 
 
 " Mappings for C and C++
@@ -272,6 +317,7 @@ autocmd FileChangedShell * echohl WarningMsg | echo "File has been changed outsi
 noremap <C-right> <ESC>gt<CR>
 noremap <C-left>  <ESC>gT<CR>
 nnoremap <C-n> :tabe<CR>
+
 
 " """"""""""""""""""""""""""""""""""""
 " Barra de status.
@@ -288,9 +334,9 @@ nnoremap <C-n> :tabe<CR>
 " """"""""""""""""""""""""""""""""
 " Marcadores de linea y columna.
 " """"""""""""""""""""""""""""""""
-"set cursorline
+set cursorline
 "quitar el cursor line.
-set nocursorline
+"set nocursorline
 "Poner el marcador de columna.
 "set cursorcolumn
 "Quitar el marcador de columna.
@@ -347,38 +393,6 @@ nnoremap <leader>lvp :call LocalVariableToParameter()<CR>
 vnoremap <leader>em  :call ExtractMethod()<CR>
 
 
-""""""""""""""""""""""""" NERDcommenter """"""""""""""""""""""
-" Create default mappings: Do not create, as they start by _c, as the vcs plugin
-let g:NERDCreateDefaultMappings = 0
-"
-" Add spaces after comment delimiters by default
-let g:NERDSpaceDelims = 1
-"
-" " Use compact syntax for prettified multi-line comments
-let g:NERDCompactSexyComs = 1
-"
-" Align line-wise comment delimiters flush left instead of following code
-" indentation
-let g:NERDDefaultAlign = 'left'
-"
-" Set a language to use its alternate delimiters by default
-let g:NERDAltDelims_java = 1
-let g:NERDAltDelims_cpp = 1
-"
-" Add your own custom formats or override the defaults
-let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
-"
-" Allow commenting and inverting empty lines (useful when commenting a
-" region)
-let g:NERDCommentEmptyLines = 1
-"
-" Enable trimming of trailing whitespace when uncommenting
-let g:NERDTrimTrailingWhitespace = 1
-"
-" Enable NERDCommenterToggle to check all selected lines is commented or not 
-let g:NERDToggleCheckAllLines = 1
-"Map to toggle comment.
-nnoremap <leader>rr :NERDCommenterToggle<CR>
 
 "Select inner word.
 nnoremap <space> viw
@@ -515,9 +529,6 @@ let g:DoxygenToolkit_paramTag_post = " [in] "
 "Map to show words like this in this file and jump to one of them
 nnoremap [I [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
 
-"Map MRU to the same command but not in caps.
-"nnoremap :mru<CR> :MRU<CR>
-
 ":profile pause
 ":noautocmd qall!
 "
@@ -576,5 +587,11 @@ set term=xterm
 
 "Add current line to matched ones
 :nnoremap <silent> <Leader>hl :call matchadd('Search', '\%'.line('.').'l')<CR>
-"Add current column to matched ones
-:nnoremap <silent> <Leader>hc :execute matchadd('Search', '\%'.virtcol('.').'v/')<CR>
+"Clear matches
+:nnoremap <silent> <Leader>ch :call clearmatches()<CR>
+
+"Rainbow parentheses config
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
