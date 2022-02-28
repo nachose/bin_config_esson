@@ -1,1 +1,4 @@
 sed -r "s/tools::initPktProcessCtx\(([^ ]*), ?([^ ]*), ?([^ ]*)\)/ctx.create\(\2, \3\)/" TtlTs.cc > prueba.txt
+sed -r "s/tools::initPktProcessCtx\(([^ ]*), ?([^ ]*), ?([^ ]*)\)/ctx.create\(\2, \3\)/" TtlTs.cc > prueba.txt
+sed -i -r "s/dpi_process_packet\(&ctx\);/ctx.withDpiContext\(dpiCtx.getObject\(\)\);\
+    dpi_process_packet\(&ctx.getObject\(\)\);"
