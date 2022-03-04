@@ -58,3 +58,10 @@
     conflictstyle = diff3
 [mergetool]
 	prompt = false
+[diff]
+	algorithm = histogram
+    #tool = vimdiff
+
+#[difftool]
+#    vimdiff.cmd = vimdiff $LOCAL $REMOTE
+

@@ -3,10 +3,10 @@ set pagination off
 set auto-load local-gdbinit on
 set loggin file gdb.output
 set logging on
-set debug-file-directory /repo/esecjos/workspace/code/
+set debug-file-directory /repo/esecjos/
 show debug-file-directory
-directory /repo/esecjos/workspace/code/
-set solib-search-path /repo/esecjos/workspace/code/
+directory /repo/esecjos/
+set solib-search-path /repo/esecjos/
 set listsize 40
 set print symbol-filename on
 set print symbol on
@@ -31,8 +31,8 @@ brestore
 
 set print elements 300
 
-#set substitute-path ../../ /repo/esecjos/workspace/code/epg/
-set substitute-path ./build/IPOS_ssc/../../ /repo/esecjos/workspace/code/epg/
+#set substitute-path ../../ /repo/esecjos/pg/
+set substitute-path ./build/IPOS_ssc/../../ /repo/esecjos/epg/
 #set substitute-path ./build/IPOS_ssc/../.. .
 set history save on
 set history size 1000

@@ -17,10 +17,10 @@ defbce on
 mousetrack on
 
 # default windows
-screen -t Shell1  1 bash
-screen -t Shell2  2 bash
-screen -t Python  3 python
-screen -t Media   4 bash
+screen -t Vim     1 tcsh
+screen -t Compile 2 tcsh
+screen -t Tests   3 tcsh
+screen -t Shell   4 tcsh
 select 0
 bind c screen 1 # window numbering starts at 1 not 0
 bind 0 select 10
@@ -29,30 +29,30 @@ bind 0 select 10
 bind s split
 
 # layouts
-layout autosave on
-layout new one
-select 1
-layout new two
-select 1
-split
-resize -v +8
-focus down
-select 4
-focus up
-layout new three
-select 1
-split
-resize -v +7
-focus down
-select 3
-split -v
-resize -h +10
-focus right
-select 4
-focus up
+# layout autosave on
+# layout new one
+# select 1
+# layout new two
+# select 1
+# split
+# resize -v +8
+# focus down
+# select 4
+# focus up
+# layout new three
+# select 1
+# split
+# resize -v +7
+# focus down
+# select 3
+# split -v
+# resize -h +10
+# focus right
+# select 4
+# focus up
 
-layout attach one
-layout select one
+# layout attach one
+# layout select one
 
 # navigating regions with Ctrl-arrows
 bindkey "^[[1;5D" focus left
@@ -61,25 +61,25 @@ bindkey "^[[1;5A" focus up
 bindkey "^[[1;5B" focus down
 
 # switch windows with F3 (prev) and F4 (next)
-bindkey "^[OR" prev
-bindkey "^[OS" next
+#bindkey "^[OR" prev
+#bindkey "^[OS" next
 
 # switch layouts with Ctrl+F3 (prev layout) and Ctrl+F4 (next)
 bindkey "^[O1;5R" layout prev
 bindkey "^[O1;5S" layout next
 
 # F2 puts Screen into resize mode. Resize regions using hjkl keys.
-bindkey "^[OQ" eval "command -c rsz" # enter resize mode
+#bindkey "^[OQ" eval "command -c rsz" # enter resize mode
 
 # use hjkl keys to resize regions
-bind -c rsz h eval "resize -h -5" "command -c rsz"
-bind -c rsz j eval "resize -v -5" "command -c rsz"
-bind -c rsz k eval "resize -v +5" "command -c rsz"
-bind -c rsz l eval "resize -h +5" "command -c rsz"
+#bind -c rsz h eval "resize -h -5" "command -c rsz"
+#bind -c rsz j eval "resize -v -5" "command -c rsz"
+#bind -c rsz k eval "resize -v +5" "command -c rsz"
+#bind -c rsz l eval "resize -h +5" "command -c rsz"
 
 # quickly switch between regions using tab and arrows
-bind -c rsz \t    eval "focus"       "command -c rsz" # Tab
-bind -c rsz -k kl eval "focus left"  "command -c rsz" # Left
-bind -c rsz -k kr eval "focus right" "command -c rsz" # Right
-bind -c rsz -k ku eval "focus up"    "command -c rsz" # Up
-bind -c rsz -k kd eval "focus down"  "command -c rsz" # Down
+#bind -c rsz \t    eval "focus"       "command -c rsz" # Tab
+#bind -c rsz -k kl eval "focus left"  "command -c rsz" # Left
+#bind -c rsz -k kr eval "focus right" "command -c rsz" # Right
+#bind -c rsz -k ku eval "focus up"    "command -c rsz" # Up
+#bind -c rsz -k kd eval "focus down"  "command -c rsz" # Down

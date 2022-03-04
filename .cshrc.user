@@ -6,8 +6,13 @@ alias ..... cd ../../../..
 alias ...... cd ../../../../..
 alias vi vim -X
 alias alco alfred -v compile
+alias alte alfred -v test
 alias grep 'grep --color=always'
-alias begin_dpi 'cd $DEVDIR && cd cdpi-main && setup_dpi'
+alias top 'top -u esecjos'
+alias du 'du -h'
+alias df 'df -h'
+alias cat_c cat ~/.cshrc.user
+alias begin_dpi 'cd $DEVDIR && cd cdpi-main && setup_dpi && ..'
 alias begin_epg 'cd $DEVDIR && cd epg && setup_workspace'
 alias begin_pcg 'cd $DEVDIR && cd epg && setup_workspace -d'
 alias bob_bob 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob'
@@ -17,7 +22,7 @@ alias bob_debug 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob -p build
 alias bob_init 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob init generate pull'
 
 #Set dev dir
-setenv DEVDIR /repo/esecjos/workspace/code
+setenv DEVDIR /repo/esecjos
 setenv CORES_DIR /lab/epg_ft/teams/team_toberano
 setenv RELEASES_DIR /lab/epg_scm19_builds/epg3/release/
 setenv CDPI_DIR ${DEVDIR}/cdpi-main
@@ -32,6 +37,8 @@ setenv HELM_REPO_TOKEN AP9aPG5ADPKrcskhHC69744xFYk
 setenv PATH $PATH\:${HOME}/bin
 setenv RELEASES_DIR /lab/epg_scm19_builds/epg3/release/EPG_28R73FY01/common/unstripped
 setenv DIR_LOGS_EXECS /lab/epg_st_portal_logs
+setenv handler_text_exec_dir ${DEVDIR}/cdpi-main/cmake_build/epg/NSDpfcphandler/test/handler
+setenv WORK_DIR ${DEVDIR}/cdpi-main/NSDpfcphandler/test/handler/
 
 #Make backup of files
 ~/bin/backup.sh
@@ -52,5 +59,4 @@ module add fzf/0.28.0
 module add ripgrep
 module add ag/2.1.0
 module add vim/8.2.0834
-setenv handler_text_exec_dir /repo/esecjos/workspace/code/cdpi-main/cmake_build/epg/NSDpfcphandler/test/handler
 module add duplo/0.7.0

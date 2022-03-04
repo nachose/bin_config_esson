@@ -1,4 +1,4 @@
-setenv repo_home_dir /repo/esecjos/workspace/code/epg
+setenv repo_home_dir /repo/esecjos/epg
 setenv current_dir $(pwd)
 if( $repo_home_dir != $current_dir ) then
     echo "Must run from repo home dir : epg"
