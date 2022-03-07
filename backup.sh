@@ -17,5 +17,6 @@ tar -C / -rvf ${filename} home/esecjos/.vimrc > /dev/null
 #tar -C / -rvf ${filename} $(find -P /home/esecjos -type l) > /dev/null
 
 
+#Delete files older than 15 days
 find ${route} -mtime +15 -delete
 
