@@ -8,5 +8,6 @@ cp ~/.gdbinit $BIN_DIR
 cp ~/.gitconfig $BIN_DIR
 cp ~/.vimrc $BIN_DIR
 cp ~/.screenrc $BIN_DIR
+cp ~/uncrustify.cfg ${BIN_DIR}
 
 

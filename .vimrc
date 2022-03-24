@@ -8,7 +8,7 @@
 runtime ftplugin/man.vim
 runtime macros/matchit.vim
 
-"leadr is _
+"leader is _
 let mapleader = "_"
 
 set incsearch            "incremental search
@@ -62,6 +62,11 @@ set foldmethod=indent
 "set foldmethod=manual
 "nivel de plegado a partir de 1 tabulación.
 set foldlevel=10
+set ballooneval
+set balloonevalterm
+"""""""""""""""""""""Mouse settings """""""""""""""""
+set mouse=a
+set ttymouse=xterm
 
 "Omnicompletion options
 set omnifunc=syntaxcomplete#Complete
@@ -127,6 +132,8 @@ Plug 'junegunn/gv.vim'
 Plug 'tpope/vim-fugitive'
 "Ale, asynchronous replacement for syntastic
 Plug 'dense-analysis/ale'
+"Easy align plugin
+Plug 'junegunn/vim-easy-align'
 
 "Some colorschemes"
 Plug 'andreasvc/vim-256noir'
@@ -151,14 +158,14 @@ autocmd FileType qf nnoremap <buffer> <Enter> <C-W><Enter><C-W>T
 
 
 """""""""""""""""""""""""""""""""""""""  TAGS  """"""""""""""""""""""
-noremap <C-x><C-x><C-T> :!ctags -R --c-kinds=+px --c++-kinds=+p --fields=+iaSKns --extra=+qf --exclude='*.js' --exclude='*.jpg' --exclude='*.so' --exclude='buildout' --exclude='3pp' --exclude='tools' -f /home/esecjos/tags/tags_cpp /repo/esecjos/
+noremap <C-x><C-x><C-T> :!ctags -R --c-kinds=+px --c++-kinds=+p --fields=+iaSKns --extra=+qf --exclude='*.js' --exclude='*.jpg' --exclude='*.so' --exclude='*.o' --exclude='*.html' --exclude='buildout' --exclude='3pp' --exclude='tools' --totals=yes -f /home/esecjos/tags/tags_cpp /repo/esecjos/
 
 "Generation of tags
 "noremap <C-x><C-x><C-T> :!ctags -R --c-kinds=+px --c++-kinds=+p --fields=+iaS --extra=+q --exclude='*.js' --exclude='*.jpg' --exclude='*.so' --exclude='epg' -f /home/esecjos/tags/tags_cpp /repo/esecjos/
 set tags+=/home/esecjos/tags/tags_cpp
-noremap <C-x><C-x><C-L> :!ctags -R --c++-kinds=+p --fields=+iaSKns --extra=+qf -f /home/esecjos/tags/tags_std_library /proj/epg-tools/compilers/ericsson-clang9.0.1-008cfeee88-rhel7.6-binutils2.32-stdlibgcc9.2.0/include/c++/9.2.0
+noremap <C-x><C-x><C-L> :!ctags -R --c++-kinds=+p --fields=+iaSKns --extra=+qf --totals=yes -f /home/esecjos/tags/tags_std_library /proj/epg-tools/compilers/ericsson-clang9.0.1-008cfeee88-rhel7.6-binutils2.32-stdlibgcc9.2.0/include/c++/9.2.0
 set tags+=/home/esecjos/tags/tags_std_library
-noremap <C-x><C-x><C-N> :!ctags --c-kinds=+px --c++-kinds=+p --fields=+iaSKns --extra=+qf -f /home/esecjos/tags/tags_c_library /usr/include
+noremap <C-x><C-x><C-N> :!ctags -R --c-kinds=+px --fields=+iaSKns --extra=+qf --totals=yes -f /home/esecjos/tags/tags_c_library /usr/include/
 set tags+=/home/esecjos/tags/tags_c_library
 " -- ctags --
 " noremap <ctrl-x>+<ctrl-t> to generate ctags for current folder:
@@ -286,10 +293,6 @@ inoremap <C-S> <ESC>:w<CR>
 nnoremap te :tabedit %<CR>
 
 """""""""""""""""""""""""""""""""""""""
-
-"Ver también los caracteres no visibles.
-"set list
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Alternate plugin
@@ -487,14 +490,13 @@ let g:airline#extensions#capslock#enabled = 1
 """"""""""" ALE configuration """"""
 " Set this. Airline will handle the rest.
 let g:airline#extensions#ale#enabled = 1
-" Lint .h files as C++, not C
+let g:ale_completion_enabled = 1
 let g:ale_pattern_options_enabled = 1
-"let g:ale_pattern_options = { '\.h$': { 'ale_linters': { 'cpp' : ['cc', 'gcc', 'clang', 'clang-tidy', 'cppcheck'] } } }
 " Set flags for gcc/clang
 let opts_cpp = '-std=c++17 -Wall -Wextra -I/proj/epg-tools/compilers/ericsson-clang9.0.1-008cfeee88-rhel7.6-binutils2.32-stdlibgcc9.2.0/include/c++/9.2.0'
 let opts_c = ''
 let opts_clang_tidy=opts_cpp . '-- -I/proj/epg-tools/compilers/ericsson-clang9.0.1-008cfeee88-rhel7.6-binutils2.32-stdlibgcc9.2.0/include/c++/9.2.0'
-let g:ale_linters = { 'cpp': ['cc', 'gcc', 'clangd', 'clangtidy', 'cppcheck'], 'c': ['cc', 'gcc', 'clangd', 'clangtidy', 'cppcheck'] }
+let g:ale_linters = { 'cpp': ['cc', 'gcc', 'clangd', 'cppcheck', 'clangtidy'], 'c': ['cc', 'gcc', 'clangd', 'cppcheck', 'clangtidy'] }
 let g:ale_cpp_cc_options    = opts_cpp
 let g:ale_cpp_gcc_options   = opts_cpp
 let g:ale_cpp_clang_options = opts_cpp
@@ -502,9 +504,20 @@ let g:ale_cpp_clangtidy_options=opts_clang_tidy
 let g:ale_c_cc_options    = opts_c
 let g:ale_c_gcc_options   = opts_c
 let g:ale_c_clang_options = opts_c
-let g:ale_fixers = { 'cpp': ['trim_whitespace', 'clangtidy'], 'c': ['trim_whitespace', 'clangtidy'] }
-let g:ale_c_build_dir = '/repo/esecjos/buildout/'
-let g:ale_cpp_build_dir = '/repo/esecjos/buildout/'
+let g:ale_fixers = { 'cpp': ['trim_whitespace', 'remove_trailing_lines', 'clangtidy'], 'c': ['trim_whitespace', 'remove_trailing_lines', 'clangtidy'] }
+let dpi_build_dir='/repo/esecjos/buildout/'
+let pcg_build_dir='/repo/esecjos/epg/up/build/compile_commands.json'
+let g:ale_c_build_dir = dpi_build_dir
+let g:ale_cpp_build_dir = dpi_build_dir
+let g:ale_c_uncrustify_options = '-c /home/esecjos/my_uncrustify.cfg'
+let g:ale_cpp_uncrustify_options = '-c /home/esecjos/my_uncrustify.cfg'
+let g:ale_fix_on_save=1
+let g:ale_set_balloons = 1
+let g:ale_hover_cursor = 1
+let g:ale_set_balloons =1
+let g:ale_hover_to_floating_preview =1
+let g:ale_floating_preview =1
+
 nnoremap <Leader>an :ALENext<CR>
 nnoremap <Leader>ap :ALEPrev<CR>
 nnoremap <Leader>afr :ALEFindReferences<CR>
@@ -565,3 +578,15 @@ map <Leader>gw :execute " grep -srnw --color=never --binary-files=without-match 
 nnoremap <leader>ev :tabe $MYVIMRC<CR>
 "Reload _vimrc.
 nnoremap <leader>sv :source $MYVIMRC<CR>
+
+"""""""""""""""""""""Easy align plugin """"""""""""""""""
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
+""""Different colorscheme for vimdiff """"""""""""""""""
+if &diff
+    colorscheme onedark
+endif

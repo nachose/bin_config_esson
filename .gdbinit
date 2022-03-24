@@ -1,6 +1,7 @@
 set pagination off
 #Autoload local .gdbinit if there is one.
-set auto-load local-gdbinit on
+#set auto-load local-gdbinit on
+set auto-load safe-path
 set loggin file gdb.output
 set logging on
 set debug-file-directory /repo/esecjos/
@@ -37,3 +38,4 @@ set substitute-path ./build/IPOS_ssc/../../ /repo/esecjos/epg/
 set history save on
 set history size 1000
 set history remove-duplicates 50
+tui enable

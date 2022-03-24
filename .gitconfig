@@ -49,18 +49,19 @@
 	se = !git rev-list --all | xargs git grep -F
 [core]
 	excludesfile = /home/esecjos/.gitignore_global
-	editor = vim
+    #editor = vim -u NONE
+    editor = vim
 
 
 [merge]
-    #tool = kdiff3
-    tool = vimdiff
+    tool = kdiff3
+    #tool = vimdiff
     conflictstyle = diff3
 [mergetool]
 	prompt = false
 [diff]
 	algorithm = histogram
-    #tool = vimdiff
+    tool = vimdiff
 
 #[difftool]
 #    vimdiff.cmd = vimdiff $LOCAL $REMOTE
