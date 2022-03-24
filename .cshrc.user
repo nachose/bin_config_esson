@@ -16,13 +16,16 @@ alias cat_c cat ~/.cshrc.user
 alias begin_dpi 'cd $DEVDIR && cd cdpi-main && setup_dpi && ..'
 alias begin_epg 'cd $DEVDIR && cd epg && setup_workspace'
 alias begin_pcg 'cd $DEVDIR && cd epg && setup_workspace -d'
-alias bob_bob 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob |& tee log_bob_bob.txt'
-alias bob_clean 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob clean |& tee log_bob_clean.txt'
-alias bob_push 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob push |& tee log_bob_push.txt'
-alias bob_build 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob build |& tee log_bob_build.txt'
+alias bob_bob 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob |& tee ../log_bob_bob.txt'
+alias bob_clean 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob clean |& tee ../log_bob_clean.txt'
+alias bob_push 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob push |& tee ../log_bob_push.txt'
+alias bob_build 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob build |& tee ../log_bob_build.txt'
 alias bob_debug 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob -p build-type=Debug generate build'
-alias bob_init 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob init generate pull |& tee log_bob_init.txt'
-alias bob_test 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob test |& tee log_bob_test.txt'
+alias bob_init 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob init generate pull |& tee ../log_bob_init.txt'
+alias bob_test 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob test |& tee ../log_bob_test.txt'
+alias bob_data_plane_clean 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob data-plane.clean |& tee ../log_bob_data_plane_clean.txt'
+alias bob_image 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob image |& tee ../log_bob_image.txt'
+
 
 #Set dev dir
 setenv DEVDIR /repo/esecjos/

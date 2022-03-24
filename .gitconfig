@@ -9,7 +9,7 @@
 [alias]
     alias = config --global -l
 
-    l = log --pretty=format:'%h %Cred%ad %Cblue %an %Cgreen%d %Creset%s' --date=relative # --date=iso
+    l = log -15 --color=always --pretty=format:'%C(always,yellow)%h %Cred%ad %C(always,magenta) %cd %C(always,cyan) %an %Cgreen%d %Creset%s' --date=relative # --date=iso
     showtags = log --no-walk --tags --pretty=format:'%h %Cgreen%d %Creset%s' --date=iso --decorate=full
     last = log -1 HEAD --stat
     st = status
