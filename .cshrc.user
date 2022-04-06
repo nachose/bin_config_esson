@@ -8,11 +8,12 @@ alias vi vim -X
 alias alco alfred -v compile
 alias alte alfred -v test
 alias grep 'grep --color=always -n'
-alias less 'less -R'
+alias less 'less -R -F -X'
 alias top 'top -u esecjos'
 alias du 'du -h'
 alias df 'df -h'
 alias cat_c cat ~/.cshrc.user
+alias sourceTrail 'sh /proj/dpi/Sourcetrail/SourceTrail.sh'
 alias begin_dpi 'cd $DEVDIR && cd cdpi-main && setup_dpi && ..'
 alias begin_epg 'cd $DEVDIR && cd epg && setup_workspace'
 alias begin_pcg 'cd $DEVDIR && cd epg && setup_workspace -d'
@@ -39,7 +40,7 @@ setenv VISUAL vim
 #implicit cd, to not need to use cd to access a directory
 set implicitcd
 #artifactory token
-setenv HELM_REPO_TOKEN AKCp8kqMREXyy3ijTD63kox7dGmwZFwPNeG9oF1JpmwKwHzrHAzHnKomgQ8rhjB7KGFcoAvui
+source artifactory_token.sh
 
 #Set path
 setenv PATH $PATH\:${HOME}/bin
@@ -71,7 +72,9 @@ module add ripgrep
 module add ag/2.1.0
 module add vim/8.2.0834
 module add duplo/0.7.0
-
 module add uncrustify
 module add jq
 module add lz4
+module add octave
+module add lynx
+module add tig/2.4.1

@@ -9,7 +9,10 @@
 [alias]
     alias = config --global -l
 
-    l = log -15 --color=always --pretty=format:'%C(always,yellow)%h %Cred%ad %C(always,magenta) %cd %C(always,cyan) %an %Cgreen%d %Creset%s' --date=relative # --date=iso
+    #l = log -15 --color=always --pretty=format:'%C(always,yellow)%h %Cred%ad %C(always,magenta) %cd %C(always,cyan) %an %Cgreen%d %Creset%s' --date=relative # --date=iso
+    l = log -15 --color=always --pretty=format:'%C(always,yellow)%h %Cred%ad %C(always,magenta) %cd %C(always,cyan) %an %Cgreen%d %Creset%s' --date=short #--date=iso
+    l2 = log -30 --color=always --pretty=format:'%C(always,yellow)%h %Cred%ad %C(always,magenta) %cd %C(always,cyan) %an %Cgreen%d %Creset%s' --date=short #--date=iso
+    l3 = log -45 --color=always --pretty=format:'%C(always,yellow)%h %Cred%ad %C(always,magenta) %cd %C(always,cyan) %an %Cgreen%d %Creset%s' --date=short #--date=iso
     showtags = log --no-walk --tags --pretty=format:'%h %Cgreen%d %Creset%s' --date=iso --decorate=full
     last = log -1 HEAD --stat
     st = status
@@ -51,6 +54,8 @@
 	excludesfile = /home/esecjos/.gitignore_global
     #editor = vim -u NONE
     editor = vim
+    #pager = less -R -F -X
+    pager = cat
 
 
 [merge]

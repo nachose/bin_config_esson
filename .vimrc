@@ -134,6 +134,11 @@ Plug 'tpope/vim-fugitive'
 Plug 'dense-analysis/ale'
 "Easy align plugin
 Plug 'junegunn/vim-easy-align'
+"Repeat for plugins
+Plug 'tpope/vim-repeat'
+"Vim-cutlass, overrides delete operators to not override current yank. Works
+"with d, c, x, ....
+Plug 'svermeulen/vim-cutlass'
 
 "Some colorschemes"
 Plug 'andreasvc/vim-256noir'
@@ -427,6 +432,10 @@ nnoremap ]I ]I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
 let g:gitgutter_map_keys = 0
 nnoremap <leader>gn :GitGutterNextHunk<CR>
 nnoremap <leader>gp :GitGutterPrevHunk<CR>
+"Run gitgutter in asynchronous mode
+let g:gitgutter_async = 1
+"Show message when jumping
+let g:gitgutter_show_msg_on_hunk_jumping = 1
 
 
 "Remap fzf a ctrlp
@@ -588,5 +597,5 @@ nmap ga <Plug>(EasyAlign)
 
 """"Different colorscheme for vimdiff """"""""""""""""""
 if &diff
-    colorscheme onedark
+    colorscheme abstract
 endif

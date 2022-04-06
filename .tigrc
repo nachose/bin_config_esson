@@ -1,0 +1,14 @@
+
+# Colors
+
+color file magenta default
+color main-file magenta default
+color log-file magenta default
+color reflog-file magenta default
+color diff-file magenta default
+color blame-file magenta default
+color blame tree-file magenta default
+
+
+set main-options=--no-abbrev-commit
+

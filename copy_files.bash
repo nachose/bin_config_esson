@@ -9,5 +9,7 @@ cp ~/.gitconfig $BIN_DIR
 cp ~/.vimrc $BIN_DIR
 cp ~/.screenrc $BIN_DIR
 cp ~/uncrustify.cfg ${BIN_DIR}
+cp ~/artifactory_token.sh ${BIN_DIR}
+cp ~/.tigrc ${BIN_DIR}
 
 
