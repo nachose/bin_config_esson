@@ -163,15 +163,15 @@ autocmd FileType qf nnoremap <buffer> <Enter> <C-W><Enter><C-W>T
 
 
 """""""""""""""""""""""""""""""""""""""  TAGS  """"""""""""""""""""""
-noremap <C-x><C-x><C-T> :!ctags -R --c-kinds=+px --c++-kinds=+p --fields=+iaSKns --extra=+qf --exclude='*.js' --exclude='*.jpg' --exclude='*.so' --exclude='*.o' --exclude='*.html' --exclude='buildout' --exclude='3pp' --exclude='tools' --totals=yes -f /home/esecjos/tags/tags_cpp /repo/esecjos/
+noremap <C-x><C-x><C-T> :!ctags -R --c-kinds=+px --c++-kinds=+p --fields=+iaSKns --extra=+qf --exclude='*.js' --exclude='*.jpg' --exclude='*.so' --exclude='*.o' --exclude='*.html' --exclude='buildout' --exclude='3pp' --exclude='tools' --totals=yes -f /repo/esecjos/tags/tags_cpp /repo/esecjos/
 
 "Generation of tags
 "noremap <C-x><C-x><C-T> :!ctags -R --c-kinds=+px --c++-kinds=+p --fields=+iaS --extra=+q --exclude='*.js' --exclude='*.jpg' --exclude='*.so' --exclude='epg' -f /home/esecjos/tags/tags_cpp /repo/esecjos/
-set tags+=/home/esecjos/tags/tags_cpp
-noremap <C-x><C-x><C-L> :!ctags -R --c++-kinds=+p --fields=+iaSKns --extra=+qf --totals=yes -f /home/esecjos/tags/tags_std_library /proj/epg-tools/compilers/ericsson-clang9.0.1-008cfeee88-rhel7.6-binutils2.32-stdlibgcc9.2.0/include/c++/9.2.0
-set tags+=/home/esecjos/tags/tags_std_library
-noremap <C-x><C-x><C-N> :!ctags -R --c-kinds=+px --fields=+iaSKns --extra=+qf --totals=yes -f /home/esecjos/tags/tags_c_library /usr/include/
-set tags+=/home/esecjos/tags/tags_c_library
+set tags+=/repo/esecjos/tags/tags_cpp
+noremap <C-x><C-x><C-L> :!ctags -R --c++-kinds=+p --fields=+iaSKns --extra=+qf --totals=yes -f /repo/esecjos/tags/tags_std_library /proj/epg-tools/compilers/ericsson-clang9.0.1-008cfeee88-rhel7.6-binutils2.32-stdlibgcc9.2.0/include/c++/9.2.0
+set tags+=/repo/esecjos/tags/tags_std_library
+noremap <C-x><C-x><C-N> :!ctags -R --c-kinds=+px --fields=+iaSKns --extra=+qf --totals=yes -f /repo/esecjos/tags/tags_c_library /usr/include/
+set tags+=/repo/esecjos/tags/tags_c_library
 " -- ctags --
 " noremap <ctrl-x>+<ctrl-t> to generate ctags for current folder:
 noremap <C-x><C-t> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR><CR>
@@ -531,6 +531,7 @@ nnoremap <Leader>an :ALENext<CR>
 nnoremap <Leader>ap :ALEPrev<CR>
 nnoremap <Leader>afr :ALEFindReferences<CR>
 nnoremap <Leader>af :ALEFix<CR>
+nnoremap <Leader>gdd :ALEGoToDefinition<CR>
 
 
 
