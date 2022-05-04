@@ -65,6 +65,7 @@
     tool = kdiff3
     #tool = vimdiff
     conflictstyle = diff3
+	renamelimit = 10000
 [mergetool]
 	prompt = false
 [diff]

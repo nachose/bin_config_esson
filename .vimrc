@@ -39,6 +39,8 @@ filetype on              "filetype detection
 set viminfo='40,<50,s10,h "value for vim info, it's the default value and I've only changed first parameter, to have 40 files in :oldfiles or :browse oldfiles list, mru
 
 set switchbuf+=usetab,newtab "Use tab that already exists while changing, new tab when opening new buffer
+"Set the preview window in a hover, instead of a window
+"set previewpopup=height:10,width:120
 "Search down into subfolders
 "set path+=**
 "Activate wildmenu to Complete
@@ -110,6 +112,8 @@ Plug 'vim-airline/vim-airline'
 Plug 'junegunn/fzf'
 "FZF mappings
 Plug 'junegunn/fzf.vim'
+"FZF preview, one of them, there are several.
+Plug 'chengzeyi/fzf-preview.vim'
 "Vim startify
 Plug 'mhinz/vim-startify'
 "MRU plugin
@@ -136,9 +140,8 @@ Plug 'dense-analysis/ale'
 Plug 'junegunn/vim-easy-align'
 "Repeat for plugins
 Plug 'tpope/vim-repeat'
-"Vim-cutlass, overrides delete operators to not override current yank. Works
-"with d, c, x, ....
-Plug 'svermeulen/vim-cutlass'
+"Another alternate to test.
+Plug 'kuznetsss/shswitch'
 
 "Some colorschemes"
 Plug 'andreasvc/vim-256noir'
@@ -163,7 +166,7 @@ autocmd FileType qf nnoremap <buffer> <Enter> <C-W><Enter><C-W>T
 
 
 """""""""""""""""""""""""""""""""""""""  TAGS  """"""""""""""""""""""
-noremap <C-x><C-x><C-T> :!ctags -R --c-kinds=+px --c++-kinds=+p --fields=+iaSKns --extra=+qf --exclude='*.js' --exclude='*.jpg' --exclude='*.so' --exclude='*.o' --exclude='*.html' --exclude='buildout' --exclude='3pp' --exclude='tools' --totals=yes -f /repo/esecjos/tags/tags_cpp /repo/esecjos/
+noremap <C-x><C-x><C-T> :!ctags -R --c-kinds=+px --c++-kinds=+p --fields=+iaSKns --extra=+qf --exclude='*.js' --exclude='*.jpg' --exclude='*.so' --exclude='*.o' --exclude='*.html' --exclude='buildout' --exclude='tools' --totals=yes -f /repo/esecjos/tags/tags_cpp /repo/esecjos/
 
 "Generation of tags
 "noremap <C-x><C-x><C-T> :!ctags -R --c-kinds=+px --c++-kinds=+p --fields=+iaS --extra=+q --exclude='*.js' --exclude='*.jpg' --exclude='*.so' --exclude='epg' -f /home/esecjos/tags/tags_cpp /repo/esecjos/
@@ -316,7 +319,7 @@ let g:alternateExtensions_c = "h"
 let g:alternateExtensions_C = "H"
 let g:alternateExtensions_cxx = "h"
 
-let g:alternateSearchPath = 'sfr:../source,sfr:../src,sfr:../include,sfr:../inc,../include/*'
+let g:alternateSearchPath = 'sfr:../source,sfr:../src,sfr:../include,sfr:../inc,../include/*,sfr:../../src'
 
 """""" grep configuration """"""
 command! -nargs=+ Mygrep execute 'silent grep! --color=never <args>' | copen 7
@@ -496,23 +499,7 @@ au Syntax * RainbowParenthesesLoadBraces
 "CAPS statusline
 let g:airline#extensions#capslock#enabled = 1
 
-""""""""""" ALE configuration """"""
-" Set this. Airline will handle the rest.
-let g:airline#extensions#ale#enabled = 1
-let g:ale_completion_enabled = 1
-let g:ale_pattern_options_enabled = 1
-" Set flags for gcc/clang
-let opts_cpp = '-std=c++17 -Wall -Wextra -I/proj/epg-tools/compilers/ericsson-clang9.0.1-008cfeee88-rhel7.6-binutils2.32-stdlibgcc9.2.0/include/c++/9.2.0'
-let opts_c = ''
-let opts_clang_tidy=opts_cpp . '-- -I/proj/epg-tools/compilers/ericsson-clang9.0.1-008cfeee88-rhel7.6-binutils2.32-stdlibgcc9.2.0/include/c++/9.2.0'
-let g:ale_linters = { 'cpp': ['cc', 'gcc', 'clangd', 'cppcheck', 'clangtidy'], 'c': ['cc', 'gcc', 'clangd', 'cppcheck', 'clangtidy'] }
-let g:ale_cpp_cc_options    = opts_cpp
-let g:ale_cpp_gcc_options   = opts_cpp
-let g:ale_cpp_clang_options = opts_cpp
-let g:ale_cpp_clangtidy_options=opts_clang_tidy
-let g:ale_c_cc_options    = opts_c
-let g:ale_c_gcc_options   = opts_c
-let g:ale_c_clang_options = opts_c
+""""""""""" ALE configuration """""" " Set this. Airline will handle the rest.  let g:airline#extensions#ale#enabled = 1 let g:ale_completion_enabled = 1 let g:ale_pattern_options_enabled = 1 Set flags for gcc/clang let opts_cpp = '-std=c++17 -Wall -Wextra -I/proj/epg-tools/compilers/ericsson-clang9.0.1-008cfeee88-rhel7.6-binutils2.32-stdlibgcc9.2.0/include/c++/9.2.0' let opts_c = '' let opts_clang_tidy=opts_cpp . '-- -I/proj/epg-tools/compilers/ericsson-clang9.0.1-008cfeee88-rhel7.6-binutils2.32-stdlibgcc9.2.0/include/c++/9.2.0' let g:ale_linters = { 'cpp': ['cc', 'gcc', 'clangd', 'cppcheck', 'clangtidy'], 'c': ['cc', 'gcc', 'clangd', 'cppcheck', 'clangtidy'] } let g:ale_cpp_cc_options    = opts_cpp let g:ale_cpp_gcc_options   = opts_cpp let g:ale_cpp_clang_options = opts_cpp let g:ale_cpp_clangtidy_options=opts_clang_tidy let g:ale_c_cc_options    = opts_c let g:ale_c_gcc_options   = opts_c let g:ale_c_clang_options = opts_c
 let g:ale_fixers = { 'cpp': ['trim_whitespace', 'remove_trailing_lines', 'clangtidy'], 'c': ['trim_whitespace', 'remove_trailing_lines', 'clangtidy'] }
 let dpi_build_dir='/repo/esecjos/buildout/'
 let pcg_build_dir='/repo/esecjos/epg/up/build/compile_commands.json'
@@ -526,12 +513,22 @@ let g:ale_hover_cursor = 1
 let g:ale_set_balloons =1
 let g:ale_hover_to_floating_preview =1
 let g:ale_floating_preview =1
+let g:ale_cursor_detail=1
+let g_ale_echo_delay=100 "Milliseconds
+let g_ale_close_preview_on_insert=1
+
+"Automatic Hovering
+augroup ale_hover_cursor
+  autocmd!
+  autocmd CursorHold * ALEHover
+augroup END
 
 nnoremap <Leader>an :ALENext<CR>
 nnoremap <Leader>ap :ALEPrev<CR>
 nnoremap <Leader>afr :ALEFindReferences<CR>
+nnoremap <Leader>afq :ALEFindReferences -quickfix<CR> :copen<CR>
 nnoremap <Leader>af :ALEFix<CR>
-nnoremap <Leader>gdd :ALEGoToDefinition<CR>
+nnoremap <Leader>agdd :ALEGoToDefinition<CR>
 
 
 
@@ -600,3 +597,16 @@ nmap ga <Plug>(EasyAlign)
 if &diff
     colorscheme abstract
 endif
+
+"Grep commands
+"Grep fow word in current directory
+:nnoremap gr :grep -srI --color=never <cword> *<CR>:copen<CR>
+"Grep for word in current file directory
+:nnoremap Gr :grep -srI --color=never <cword> %:p:h/*<CR>:copen<CR>
+"Grep for WORD in current directory
+:nnoremap gR :grep -srI --color=never '\b<cword>\b' *<CR>:copen<CR>
+"Grep for WORD in current file directory
+:nnoremap GR :grep -srI --color=never '\b<cword>\b' %:p:h/*<CR>:copen<CR>
+
+""""""""""""""""""SWSwitch"""""""""""""""""
+"Remainder, the command is :SWSwitch<CR>

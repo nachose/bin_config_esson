@@ -8,7 +8,7 @@ alias vi vim -X
 alias alco alfred -v compile
 alias alte alfred -v test
 alias grep 'grep --color=always -n'
-alias less 'less -R -F -X'
+alias less 'less -R -F -X -N' #-R for displaying terminal colors, -N for showing numbers, -F for exit if less than one screen
 alias top 'top -u esecjos'
 alias du 'du -h'
 alias df 'df -h'
@@ -26,6 +26,7 @@ alias bob_init 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob init gene
 alias bob_test 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob test |& tee ../log_bob_test.txt'
 alias bob_data_plane_clean 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob data-plane.clean |& tee ../log_bob_data_plane_clean.txt'
 alias bob_image 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob image |& tee ../log_bob_image.txt'
+alias git_showfirst  'git show `git log -1 --oneline | cut -d " " -f 1`'
 
 
 #Set dev dir
@@ -78,3 +79,4 @@ module add lz4
 module add octave
 module add lynx
 module add tig/2.4.1
+module add multitail
