@@ -444,7 +444,7 @@ let g:gitgutter_show_msg_on_hunk_jumping = 1
 "Remap fzf a ctrlp
 nmap <C-P> :FZF<CR>
 "Consider dash(-) not a separator for searching
-set iskeyword+=-
+"set iskeyword+=-
 
 "Handle ctrl arrow keys, because they do not work with screen
 map  <Esc>[1;5A <C-Up>
@@ -498,15 +498,40 @@ au Syntax * RainbowParenthesesLoadBraces
 """"""""""""Airline extension""""""""""""""""""""""
 "CAPS statusline
 let g:airline#extensions#capslock#enabled = 1
+let g:airline#extensions#ale#enabled = 1
+"Inactive windows only show name of file, left section is collapsed
+let g:airline_inactive_collapse=1
+"Inactive windows do have different separators.
+let g:airline_inactive_alt_sep=1
+"Airline layout
+"let g:airline#extensions#default#layout = [ [ 'a', 'b', 'c' ], [ 'x', 'y', 'z', 'error', 'warning' ] ]
+let g:airline#extensions#default#layout = [ [ 'a', 'b', 'c' ], [ 'x', 'y', 'z', 'error'] ]
+"Skip empty sections
+let g:airline_skip_empty_sections = 1
 
-""""""""""" ALE configuration """""" " Set this. Airline will handle the rest.  let g:airline#extensions#ale#enabled = 1 let g:ale_completion_enabled = 1 let g:ale_pattern_options_enabled = 1 Set flags for gcc/clang let opts_cpp = '-std=c++17 -Wall -Wextra -I/proj/epg-tools/compilers/ericsson-clang9.0.1-008cfeee88-rhel7.6-binutils2.32-stdlibgcc9.2.0/include/c++/9.2.0' let opts_c = '' let opts_clang_tidy=opts_cpp . '-- -I/proj/epg-tools/compilers/ericsson-clang9.0.1-008cfeee88-rhel7.6-binutils2.32-stdlibgcc9.2.0/include/c++/9.2.0' let g:ale_linters = { 'cpp': ['cc', 'gcc', 'clangd', 'cppcheck', 'clangtidy'], 'c': ['cc', 'gcc', 'clangd', 'cppcheck', 'clangtidy'] } let g:ale_cpp_cc_options    = opts_cpp let g:ale_cpp_gcc_options   = opts_cpp let g:ale_cpp_clang_options = opts_cpp let g:ale_cpp_clangtidy_options=opts_clang_tidy let g:ale_c_cc_options    = opts_c let g:ale_c_gcc_options   = opts_c let g:ale_c_clang_options = opts_c
+""""""""""" ALE configuration """"""
+" Set this. Airline will handle the rest.
+let g:ale_completion_enabled = 1
+let g:ale_pattern_options_enabled = 1
+"Set flags for gcc/clang
+let opts_cpp = '-std=c++17 -Wall -Wextra -I/proj/epg-tools/compilers/ericsson-clang9.0.1-008cfeee88-rhel7.6-binutils2.32-stdlibgcc9.2.0/include/c++/9.2.0'
+let opts_c = ''
+let opts_clang_tidy=opts_cpp . '-- -I/proj/epg-tools/compilers/ericsson-clang9.0.1-008cfeee88-rhel7.6-binutils2.32-stdlibgcc9.2.0/include/c++/9.2.0'
+let g:ale_linters = { 'cpp': ['cc', 'gcc', 'clangd', 'cppcheck', 'clangtidy'], 'c': ['cc', 'gcc', 'clangd', 'cppcheck', 'clangtidy'] }
+let g:ale_cpp_cc_options    = opts_cpp
+let g:ale_cpp_gcc_options   = opts_cpp
+let g:ale_cpp_clang_options = opts_cpp
+let g:ale_cpp_clangtidy_options=opts_clang_tidy
+let g:ale_c_cc_options    = opts_c
+let g:ale_c_gcc_options   = opts_c
+let g:ale_c_clang_options = opts_c
 let g:ale_fixers = { 'cpp': ['trim_whitespace', 'remove_trailing_lines', 'clangtidy'], 'c': ['trim_whitespace', 'remove_trailing_lines', 'clangtidy'] }
 let dpi_build_dir='/repo/esecjos/buildout/'
 let pcg_build_dir='/repo/esecjos/epg/up/build/compile_commands.json'
 let g:ale_c_build_dir = dpi_build_dir
 let g:ale_cpp_build_dir = dpi_build_dir
-let g:ale_c_uncrustify_options = '-c /home/esecjos/my_uncrustify.cfg'
-let g:ale_cpp_uncrustify_options = '-c /home/esecjos/my_uncrustify.cfg'
+"let g:ale_c_uncrustify_options = '-c /home/esecjos/my_uncrustify.cfg'
+"let g:ale_cpp_uncrustify_options = '-c /home/esecjos/my_uncrustify.cfg'
 let g:ale_fix_on_save=1
 let g:ale_set_balloons = 1
 let g:ale_hover_cursor = 1
