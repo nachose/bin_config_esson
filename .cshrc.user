@@ -27,7 +27,7 @@ alias bob_test 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob test |& t
 alias bob_data_plane_clean 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob data-plane.clean |& tee ../log_bob_data_plane_clean.txt'
 alias bob_image 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob image |& tee ../log_bob_image.txt'
 alias git_showfirst  'git show `git log -1 --oneline | cut -d " " -f 1`'
-alias build_epg ' build -c Linux_x86_64 -r -t'
+alias build_epg 'build -c Linux_x86_64 -r -t -D |& tee ../log_epg_build.txt'
 
 
 #Set dev dir
