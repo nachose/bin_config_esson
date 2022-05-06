@@ -26,7 +26,7 @@ alias bob_init='env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob init gene
 alias bob_push='env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob push'
 alias grep='grep --color=always'
 #When invoking vim, don't connect to x server.
-alias vi=vim -X
+alias vi='vim -X'
 
 module add ag/2.1.0
 module add clang/13.0.0

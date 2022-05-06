@@ -504,10 +504,16 @@ let g:airline_inactive_collapse=1
 "Inactive windows do have different separators.
 let g:airline_inactive_alt_sep=1
 "Airline layout
-"let g:airline#extensions#default#layout = [ [ 'a', 'b', 'c' ], [ 'x', 'y', 'z', 'error', 'warning' ] ]
-let g:airline#extensions#default#layout = [ [ 'a', 'b', 'c' ], [ 'x', 'y', 'z', 'error'] ]
+let g:airline#extensions#default#layout = [ [ 'a', 'b', 'c' ], [ 'x', 'y', 'z', 'error', 'warning' ] ]
+"let g:airline#extensions#default#layout = [ [ 'a', 'b', 'c' ], [ 'x', 'y', 'z', 'error'] ]
 "Skip empty sections
 let g:airline_skip_empty_sections = 1
+"fzf integration.
+let g:airline#extensions#fzf#enabled = 1
+"Integration with gitgutter
+let g:airline#extensions#hunks#enabled = 1
+"Integration with nerdtree
+let g:airline#extensions#nerdtree_statusline = 1
 
 """"""""""" ALE configuration """"""
 " Set this. Airline will handle the rest.
