@@ -32,8 +32,9 @@ set showmode             "show current mode.
 set nobackup             "do not backup files.
 set hlsearch             "highlight search"
 set tabpagemax =100      "100 tabs.
-set list                 "Que se vean los caracteres no visibles.
+set list                 "See non visible characters
 set clipboard=unnamed,unnamedplus "Usar * y + para copiar al portapapeles del sistema.
+set wrapscan             "When arriving to the end of the file, start again from the top.
 syntax on                "syntax is active
 filetype on              "filetype detection
 set viminfo='40,<50,s10,h "value for vim info, it's the default value and I've only changed first parameter, to have 40 files in :oldfiles or :browse oldfiles list, mru
@@ -166,7 +167,7 @@ autocmd FileType qf nnoremap <buffer> <Enter> <C-W><Enter><C-W>T
 
 
 """""""""""""""""""""""""""""""""""""""  TAGS  """"""""""""""""""""""
-noremap <C-x><C-x><C-T> :!ctags -R --c-kinds=+px --c++-kinds=+p --fields=+iaSKns --extra=+qf --exclude='*.js' --exclude='*.jpg' --exclude='*.so' --exclude='*.o' --exclude='*.html' --exclude='buildout' --exclude='tools' --totals=yes -f /repo/esecjos/tags/tags_cpp /repo/esecjos/
+noremap <C-x><C-x><C-T> :!ctags -R --c-kinds=+px --c++-kinds=+p --fields=+iaSKns --extra=+qf --exclude='*.js' --exclude='*.jpg' --exclude='*.so' --exclude='*.o' --exclude='*.html' --exclude='buildout' --exclude='tools' --exclude='3pp' --totals=yes -f /repo/esecjos/tags/tags_cpp /repo/esecjos/
 
 "Generation of tags
 "noremap <C-x><C-x><C-T> :!ctags -R --c-kinds=+px --c++-kinds=+p --fields=+iaS --extra=+q --exclude='*.js' --exclude='*.jpg' --exclude='*.so' --exclude='epg' -f /home/esecjos/tags/tags_cpp /repo/esecjos/
@@ -233,6 +234,7 @@ let b:SignatureWrapJumps = 1
 
 """""""""""""" Taglist options """"""
 nnoremap <F5> :TlistToggle<CR>
+let Tlist_Show_One_File = 1 "Display tags of multiple files at different times, only the current file's
 
 """""""""""""" GV options, git commit browser """"""""
 "Log of commits
@@ -533,9 +535,10 @@ let g:ale_c_gcc_options   = opts_c
 let g:ale_c_clang_options = opts_c
 let g:ale_fixers = { 'cpp': ['trim_whitespace', 'remove_trailing_lines', 'clangtidy'], 'c': ['trim_whitespace', 'remove_trailing_lines', 'clangtidy'] }
 let dpi_build_dir='/repo/esecjos/buildout/'
-let pcg_build_dir='/repo/esecjos/epg/up/build/compile_commands.json'
-let g:ale_c_build_dir = dpi_build_dir
-let g:ale_cpp_build_dir = dpi_build_dir
+let pcg_build_dir='/repo/esecjos/epg/up/build/'
+let epg_build_dir=''
+let g:ale_c_build_dir = pcg_build_dir
+let g:ale_cpp_build_dir = pcg_build_dir
 "let g:ale_c_uncrustify_options = '-c /home/esecjos/my_uncrustify.cfg'
 "let g:ale_cpp_uncrustify_options = '-c /home/esecjos/my_uncrustify.cfg'
 let g:ale_fix_on_save=1
@@ -639,5 +642,62 @@ endif
 "Grep for WORD in current file directory
 :nnoremap GR :grep -srI --color=never '\b<cword>\b' %:p:h/*<CR>:copen<CR>
 
+function GrepwordInBaseDirectory()
+    :grep -srI --color=never <cword> *
+    :copen
+endfunction
+function GrepwordInFileDirectory()
+    :grep -srI --color=never <cword> %:p:h/*
+    :copen
+endfunction
+function GrepWORDInBaseDirectory()
+    :grep -srI --color=never '\b<cword>\b' *
+    :copen
+endfunction
+function GrepWORDInFileDirectory()
+    :grep -srI --color=never '\b<cword>\b' %:p:h/*
+    :copen
+endfunction
+
 """"""""""""""""""SWSwitch"""""""""""""""""
 "Remainder, the command is :SWSwitch<CR>
+"
+
+""""""""""""Functions to add or remove - from keyword """""""""""""""""""""
+"Remove - from keywords, affecting searchs
+function Enabledash()
+    set iskeyword+=-
+endfunction
+"Add - from keywords, affecting searchs
+function Disabledash()
+    set iskeyword-=-
+endfunction
+"Remove -> from keywords, affecting searchs
+function EnableSymbols()
+    set iskeyword+=-
+    set iskeyword+=>
+endfunction
+"Add -> from keywords, affecting searchs
+function DisableSymbols()
+    set iskeyword-=-
+    set iskeyword-=>
+endfunction
+
+"Reinterpret terminal colors, for example of output of grep to see the colorschemes
+"instead of the control codes. Output is a terminal window, cannot be modified
+function SeeGrepColors()
+    :term cat %:p
+    :on
+endfunction
+
+""""""""""""""""Grep quickfix list """"""""""""""""""""""""
+function! GrepQuickFix(pat)
+  let all = getqflist()
+  for d in all
+    if bufname(d['bufnr']) !~ a:pat && d['text'] !~ a:pat
+        call remove(all, index(all,d))
+    endif
+  endfor
+  call setqflist(all)
+endfunction
+command! -nargs=* GrepQF call GrepQuickFix(<q-args>)

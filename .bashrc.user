@@ -7,6 +7,7 @@ export DIR_LOGS_EXECS=/lag/epg_st_portal_logs
 export handler_text_exec_dir=${DEVDIR}/cdpi-main/cmake_build/epg/NSDpfcphandler/test/handler
 export EDITOR=vim
 export VISUAL=vim
+#export LC_CTYPE=C.UTF-8 #Needed for gdb-dashboard
 
 
 alias ......='cd ../../../../..'

@@ -10,9 +10,12 @@ alias alte alfred -v test
 alias grep 'grep --color=always -n'
 alias less 'less -R -F -X -N' #-R for displaying terminal colors, -N for showing numbers, -F for exit if less than one screen
 alias top 'top -u esecjos'
+alias htop 'htop -u esecjos'
+alias killall 'killall -u esecjos'
 alias du 'du -h'
 alias df 'df -h'
 alias cat_c cat ~/.cshrc.user
+alias dirs 'dirs -lpv'
 alias sourceTrail 'sh /proj/dpi/Sourcetrail/SourceTrail.sh'
 alias begin_dpi 'cd $DEVDIR && cd cdpi-main && setup_dpi && ..'
 alias begin_epg 'cd $DEVDIR && cd epg && setup_workspace'
@@ -38,6 +41,8 @@ setenv CDPI_DIR ${DEVDIR}/cdpi-main
 setenv EPG_DIR ${DEVDIR}/epg
 setenv EDITOR vim
 setenv VISUAL vim
+#setenv LC_ALL en_US.utf8
+#setenv LC_CTYPE en_US.utf8
 
 #implicit cd, to not need to use cd to access a directory
 set implicitcd
@@ -52,13 +57,6 @@ setenv RELEASES_DIR /lab/epg_scm19_builds/epg3/release/EPG_28R73FY01/common/unst
 setenv DIR_LOGS_EXECS /lab/epg_st_portal_logs
 setenv handler_text_exec_dir ${DEVDIR}/cdpi-main/cmake_build/epg/NSDpfcphandler/test/handler
 setenv WORK_DIR ${DEVDIR}/cdpi-main/NSDserviceFunctions/lib/reporting
-
-
-#Make backup of files
-~/bin/backup.sh
-~/bin/copy_files.bash
-
-
 
 
 module add dos2unix/7.4.0
@@ -82,3 +80,4 @@ module add lynx
 module add tig/2.4.1
 module add multitail
 module add gdbgui
+module add cgdb

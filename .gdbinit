@@ -38,7 +38,22 @@ set substitute-path ./build/IPOS_ssc/../../ /repo/esecjos/epg/
 set history save on
 set history size 1000
 set history remove-duplicates 50
+
+#set style address background normal
+set style address foreground cyan
+#set style address intensity normal
+set print elements 100000
+
 tui enable
+
+#Source gdbinit file from https://github.com/gdbinit/gdbinit
+#source ~/Gdbinit/gdbinit
+
+#python
+#import pygments
+#from pygments.styles import *
+#for style in get_all_styles(): print(style)
+#end
 
 #python
 
@@ -101,6 +116,7 @@ tui enable
 #    python from pygments.styles import *
 #    python for style in get_all_styles(): print(style)''',
 #                'default': 'monokai'
+##                'default': 'igor'
 #            },
 #            'discard_scrollback': {
 #                'doc': '''Discard the scrollback buffer at each redraw.
@@ -2354,10 +2370,8 @@ tui enable
 #set print array off
 #set print array-indexes on
 #set python print-stack full
-#print available styles
+##print available styles
 
-##python from pygments.styles import *
-##python for style in get_all_styles(): print(style)'''
 
 ## Start ------------------------------------------------------------------------
 
