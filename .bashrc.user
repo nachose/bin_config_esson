@@ -29,16 +29,4 @@ alias grep='grep --color=always'
 #When invoking vim, don't connect to x server.
 alias vi='vim -X'
 
-module add ag/2.1.0
-module add clang/13.0.0
-module add cppcheck/2.6
-module add ctags/5.8
-module add dos2unix/7.4.0
-module add duplo/0.7.0
-module add fzf/0.28.0
-module add nodejs/12.18.3
-module add octave
-module add qtcreator/4.6.2
-module add ripgrep
-module add tmux/3.2
-module add vim/8.2.0834
+source ~/.modules

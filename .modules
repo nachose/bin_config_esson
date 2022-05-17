@@ -1,0 +1,27 @@
+#Load modules.
+
+module add dos2unix/7.4.0
+module add tmux/3.2
+module add qtcreator/4.6.2
+module add ctags/5.8
+module add nodejs/12.18.3
+module add octave
+module add cppcheck/2.6
+module add clang/13.0.0
+module add fzf/0.28.0
+module add ripgrep
+module add ag/2.1.0
+module add vim/8.2.0834
+module add duplo/0.7.0
+module add uncrustify
+module add jq
+module add lz4
+module add octave
+module add lynx
+module add tig/2.4.1
+module add multitail
+module add gdbgui
+#module add cgdb
+module load kubectl/latest
+module load firefox/latest
+module load helm/3.7.2

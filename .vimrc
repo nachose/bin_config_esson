@@ -115,6 +115,8 @@ Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 "FZF preview, one of them, there are several.
 Plug 'chengzeyi/fzf-preview.vim'
+"FZF tags, to improve navigation of tags.
+Plug 'zackhsi/fzf-tags'
 "Vim startify
 Plug 'mhinz/vim-startify'
 "MRU plugin
@@ -167,14 +169,14 @@ autocmd FileType qf nnoremap <buffer> <Enter> <C-W><Enter><C-W>T
 
 
 """""""""""""""""""""""""""""""""""""""  TAGS  """"""""""""""""""""""
-noremap <C-x><C-x><C-T> :!ctags -R --c-kinds=+px --c++-kinds=+p --fields=+iaSKns --extra=+qf --exclude='*.js' --exclude='*.jpg' --exclude='*.so' --exclude='*.o' --exclude='*.html' --exclude='buildout' --exclude='tools' --exclude='3pp' --totals=yes -f /repo/esecjos/tags/tags_cpp /repo/esecjos/
+noremap <C-x><C-x><C-T> :!ctags -R --c-kinds=+px --c++-kinds=+p --fields=+iaSKns --extra=+qf --excmd=number --exclude='*.js' --exclude='*.jpg' --exclude='*.so' --exclude='*.o' --exclude='*.html' --exclude='buildout' --exclude='tools' --exclude='3pp' --totals=yes -f /repo/esecjos/tags/tags_cpp /repo/esecjos/
 
 "Generation of tags
 "noremap <C-x><C-x><C-T> :!ctags -R --c-kinds=+px --c++-kinds=+p --fields=+iaS --extra=+q --exclude='*.js' --exclude='*.jpg' --exclude='*.so' --exclude='epg' -f /home/esecjos/tags/tags_cpp /repo/esecjos/
 set tags+=/repo/esecjos/tags/tags_cpp
-noremap <C-x><C-x><C-L> :!ctags -R --c++-kinds=+p --fields=+iaSKns --extra=+qf --totals=yes -f /repo/esecjos/tags/tags_std_library /proj/epg-tools/compilers/ericsson-clang9.0.1-008cfeee88-rhel7.6-binutils2.32-stdlibgcc9.2.0/include/c++/9.2.0
+noremap <C-x><C-x><C-L> :!ctags -R --c++-kinds=+p --fields=+iaSKns --extra=+qf --totals=yes --excmd=number -f /repo/esecjos/tags/tags_std_library /proj/epg-tools/compilers/ericsson-clang9.0.1-008cfeee88-rhel7.6-binutils2.32-stdlibgcc9.2.0/include/c++/9.2.0
 set tags+=/repo/esecjos/tags/tags_std_library
-noremap <C-x><C-x><C-N> :!ctags -R --c-kinds=+px --fields=+iaSKns --extra=+qf --totals=yes -f /repo/esecjos/tags/tags_c_library /usr/include/
+noremap <C-x><C-x><C-N> :!ctags -R --c-kinds=+px --fields=+iaSKns --extra=+qf --totals=yes --excmd=number -f /repo/esecjos/tags/tags_c_library /usr/include/
 set tags+=/repo/esecjos/tags/tags_c_library
 " -- ctags --
 " noremap <ctrl-x>+<ctrl-t> to generate ctags for current folder:
@@ -701,3 +703,9 @@ function! GrepQuickFix(pat)
   call setqflist(all)
 endfunction
 command! -nargs=* GrepQF call GrepQuickFix(<q-args>)
+
+""""""""""""""""fzf-tags""""""""""""""""""""""""""""""""""
+"Substitue :tag and :tselect
+nmap <C-]> <Plug>(fzf_tags)
+noreabbrev <expr> ts getcmdtype() == ":" && getcmdline() == 'ts' ? 'FZFTselect' : 'ts'
+
