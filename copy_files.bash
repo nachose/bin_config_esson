@@ -13,6 +13,7 @@ cp ~/artifactory_token.sh ${BIN_DIR}
 cp ~/.tigrc ${BIN_DIR}
 cp ~/.modules ${BIN_DIR}
 cp ~/procesaDDC.sh ${BIN_DIR}
+cp ~/dataPrueba.sh ${BIN_DIR}
 
 
 
