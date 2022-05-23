@@ -38,6 +38,7 @@ set wrapscan             "When arriving to the end of the file, start again from
 syntax on                "syntax is active
 filetype on              "filetype detection
 set viminfo='40,<50,s10,h "value for vim info, it's the default value and I've only changed first parameter, to have 40 files in :oldfiles or :browse oldfiles list, mru
+"set termguicolors        "Set real color
 
 set switchbuf+=usetab,newtab "Use tab that already exists while changing, new tab when opening new buffer
 "Set the preview window in a hover, instead of a window
@@ -145,6 +146,9 @@ Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-repeat'
 "Another alternate to test.
 Plug 'kuznetsss/shswitch'
+"Syntax for log files
+Plug 'dzeban/vim-log-syntax'
+
 
 "Some colorschemes"
 Plug 'andreasvc/vim-256noir'
@@ -260,6 +264,10 @@ set sessionoptions-=folds      " do not store folds
 set noswapfile   "no generar archivos de swap. Si se va la luz me quedo sin los cambios, pero es menos molesto.
 set autowrite    "salva el archivo actual al cambiar de buffer.
 
+""""""""""""""""""""Undo persistance"""""""""""""""""""""
+set undodir=~/.vim/undodir
+set undofile
+
 
 """"""""""""""""""""""" Autocmds """"""""""""""""""""""""""""
 autocmd BufRead *.qs set syntax=javascript         "Si se lee un qs la sintaxis es javascript.
@@ -273,6 +281,7 @@ au BufRead *.html set filetype=htmlm4  "Syntax of html + javascript
 autocmd InsertEnter * set cursorcolumn
 autocmd InsertLeave * set nocursorcolumn
 autocmd FileChangedShell * echohl WarningMsg | echo "File has been changed outside of vim." | echohl None
+autocmd FileType yaml set tabstop=2 shiftwidth=2 "yaml files have a tab of two characters
 
 """""""""""""""""" Tab management """"""""""""""""""""""""""""""""""""""""""""
 "Ctrl-t para una nueva pestaña
@@ -709,3 +718,23 @@ command! -nargs=* GrepQF call GrepQuickFix(<q-args>)
 nmap <C-]> <Plug>(fzf_tags)
 noreabbrev <expr> ts getcmdtype() == ":" && getcmdline() == 'ts' ? 'FZFTselect' : 'ts'
 
+"""""""""""""""""""""""""""CScope"""""""""""""""""""""""""""""""
+function! Cscope(option, query)
+  let color = '{ x = $1; $1 = ""; z = $3; $3 = ""; printf "\033[34m%s\033[0m:\033[31m%s\033[0m\011\033[37m%s\033[0m\n", x,z,$0; }'
+  let opts = {
+  \ 'source':  "cscope -dL" . a:option . " " . a:query . " | awk '" . color . "'",
+  \ 'options': ['--ansi', '--prompt', '> ',
+  \             '--multi', '--bind', 'alt-a:select-all,alt-d:deselect-all',
+  \             '--color', 'fg:188,fg+:222,bg+:#3a3a3a,hl+:104'],
+  \ 'down': '40%'
+  \ }
+  function! opts.sink(lines)
+    let data = split(a:lines)
+    let file = split(data[0], ":")
+    execute 'e ' . '+' . file[1] . ' ' . file[0]
+  endfunction
+  call fzf#run(opts)
+endfunction
+
+" Invoke command. 'g' is for call graph, kinda.
+nnoremap <silent> <Leader>sco :call Cscope('3', expand('<cword>'))<CR>
