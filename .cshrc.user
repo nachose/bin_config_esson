@@ -1,4 +1,5 @@
 source /proj/dpi/cdpi_environment/envconfig.sh
+
 alias .. cd ..
 alias ... cd ../..
 alias .... cd ../../..
@@ -7,9 +8,10 @@ alias ...... cd ../../../../..
 alias vi vim -X
 alias alco alfred -v compile
 alias alte alfred -v test
-alias grep 'grep --color=always -n'
+alias ngrep 'grep --color=always -n'
 alias less 'less -R -F -X -N' #-R for displaying terminal colors, -N for showing numbers, -F for exit if less than one screen
 alias top 'top -u esecjos'
+alias ps 'ps -u esecjos'
 alias htop 'htop -u esecjos'
 alias killall 'killall -u esecjos'
 alias du 'du -h'

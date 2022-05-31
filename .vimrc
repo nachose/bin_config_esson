@@ -18,8 +18,8 @@ set scrolloff   =1       "at least 1 line of margin in top and bottom
 set history     =50
 set autoread             "autorefresh files when updated by another program
 set ruler                "add ruler with line, column at the bottom-right
-set tabstop     =4
-set shiftwidth  =4
+set tabstop     =2
+set shiftwidth  =2
 set expandtab            "tabs are filled with spaces
 set langmenu    =es_es.utf8
 set encoding    =utf-8   "file encoding
@@ -641,6 +641,12 @@ nmap ga <Plug>(EasyAlign)
 """"Different colorscheme for vimdiff """"""""""""""""""
 if &diff
     colorscheme abstract
+    "The following mappings still need to be tested
+    nnoremap <C-1> :diffg LO<CR>
+    nnoremap <C-2> :diffg BA<CR>
+    nnoremap <C-3> :diffg RE<CR>
+    nnoremap <C-Up> [c
+    nnoremap <C-Down> ]c
 endif
 
 "Grep commands
@@ -738,3 +744,7 @@ endfunction
 
 " Invoke command. 'g' is for call graph, kinda.
 nnoremap <silent> <Leader>sco :call Cscope('3', expand('<cword>'))<CR>
+
+"Hightlight characters that are further than 80 characters
+highlight ColorColumn ctermbg=magenta
+call matchadd('ColorColumn', '\%81v', 100)

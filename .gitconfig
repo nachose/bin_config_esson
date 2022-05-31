@@ -52,7 +52,8 @@
     remotemiror = remote set-url --push origin ssh://selngerrit.mo.sw.ericsson.se:29418/pc/sasn/cdpi-main
 
 
-	se = !git rev-list --all | xargs git grep -F
+    se = !git rev-list --all | xargs git grep -F
+    showlastchanges = show -1 --numstat
 [core]
 	excludesfile = /home/esecjos/.gitignore_global
     #editor = vim -u NONE
