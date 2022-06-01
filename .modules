@@ -11,7 +11,7 @@ module add fzf/0.28.0
 #module add ag/2.1.0
 module add vim/8.2.0834
 module add duplo/0.7.0
-#module add uncrustify
+module add uncrustify
 module add jq
 module add lz4
 module add octave

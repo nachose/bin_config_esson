@@ -217,13 +217,13 @@ let g:NERDTreeQuitOnOpen = 1
 
 " --- OmniCppComplete ---
 " -- configs --
-let OmniCpp_MayCompleteDot      = 1 " autocomplete with .
-let OmniCpp_MayCompleteArrow    = 1 " autocomplete with ->
-let OmniCpp_MayCompleteScope    = 1 " autocomplete with ::
-let OmniCpp_SelectFirstItem     = 2 " select first item (but don't insert)
-let OmniCpp_NamespaceSearch     = 2 " search namespaces in this and included files
+" let OmniCpp_MayCompleteDot      = 1 " autocomplete with .
+" let OmniCpp_MayCompleteArrow    = 1 " autocomplete with ->
+" let OmniCpp_MayCompleteScope    = 1 " autocomplete with ::
+" let OmniCpp_SelectFirstItem     = 2 " select first item (but don't insert)
+" let OmniCpp_NamespaceSearch     = 2 " search namespaces in this and included files
 let OmniCpp_ShowPrototypeInAbbr = 1 " show function prototype (i.e. parameters) in popup window
-let OmniCpp_LocalSearchDecl     = 1 " don't require special style of function opening braces
+" let OmniCpp_LocalSearchDecl     = 1 " don't require special style of function opening braces
 
 """""""""""""""""""""""""   Vim Signature configuration """"""""""""""""
 let g:SignatureMap = {
@@ -284,8 +284,6 @@ autocmd FileChangedShell * echohl WarningMsg | echo "File has been changed outsi
 autocmd FileType yaml set tabstop=2 shiftwidth=2 "yaml files have a tab of two characters
 
 """""""""""""""""" Tab management """"""""""""""""""""""""""""""""""""""""""""
-"Ctrl-t para una nueva pestaña
-nnoremap <C-t> :tabe<CR>
 "Ctrl +x para cerrar pestañas.
 :nnoremap <c-x> :clo<cr>
 "Ctrl + e para una nueva pestaña.
@@ -397,28 +395,9 @@ nnoremap <c-k><c-f> vi{=
 let g:Tlist_Ctags_Cmd = '/usr/bin/ctags'
 let g:Tlist_WinWidth = 50
 
-"Autocomplete menu colors.
-":highlight Pmenu guibg=CornflowerBlue
-":highlight Pmenu guifg=Black
-":highlight PmenuSel guibg=Black
-":highlight PmenuSel guifg=CornflowerBlue
-
 "Create doxygen header of function.
 :nnoremap <leader>d :Dox<CR>
 let g:DoxygenToolkit_paramTag_post = " [in] "
-
-"Directory of execution is that of Forandesa.
-"cd c:\workcopy\ForanDesa\src\
-
-"Try to get the correct directory.
-"autocmd BufReadPost *.cpp cd %:p:h/
-"autocmd BufReadPost *.cc  cd %:p:h/
-"autocmd BufReadPost *.h   cd %:p:h/
-"autocmd BufReadPost *.hh  cd %:p:h/
-"autocmd BufReadPost *.c   cd %:p:h/
-"autocmd BufReadPost *.qs  cd %:p:h/
-"autocmd BufReadPost *.fcs cd %:p:h/
-"autocmd TabEnter    *.*   cd %:p:h/
 
 "Save automatically all files when focus lost.
 :au FocusLost * silent! wa
@@ -548,10 +527,8 @@ let g:ale_fixers = { 'cpp': ['trim_whitespace', 'remove_trailing_lines', 'clangt
 let dpi_build_dir='/repo/esecjos/buildout/'
 let pcg_build_dir='/repo/esecjos/epg/up/build/'
 let epg_build_dir=''
-let g:ale_c_build_dir = pcg_build_dir
-let g:ale_cpp_build_dir = pcg_build_dir
-"let g:ale_c_uncrustify_options = '-c /home/esecjos/my_uncrustify.cfg'
-"let g:ale_cpp_uncrustify_options = '-c /home/esecjos/my_uncrustify.cfg'
+let g:ale_c_build_dir = dpi_build_dir
+let g:ale_cpp_build_dir = dpi_build_dir
 let g:ale_fix_on_save=1
 let g:ale_set_balloons = 1
 let g:ale_hover_cursor = 1
@@ -569,7 +546,7 @@ augroup ale_hover_cursor
 augroup END
 
 nnoremap <Leader>an :ALENext<CR>
-nnoremap <Leader>ap :ALEPrev<CR>
+nnoremap <Leader>ap :ALEPrevious<CR>
 nnoremap <Leader>afr :ALEFindReferences<CR>
 nnoremap <Leader>afq :ALEFindReferences -quickfix<CR> :copen<CR>
 nnoremap <Leader>af :ALEFix<CR>
@@ -591,7 +568,7 @@ endif
 
 "Choose an open buffer from the list
 "The ending space is intended
-nnoremap <Leader>ls :ls<CR>:b 
+nnoremap <Leader>ls :ls<CR>:b
 
 ""Cursor settings, lets see
 "if &term =~ "xterm\\|rxvt"
@@ -642,11 +619,16 @@ nmap ga <Plug>(EasyAlign)
 if &diff
     colorscheme abstract
     "The following mappings still need to be tested
-    nnoremap <C-1> :diffg LO<CR>
-    nnoremap <C-2> :diffg BA<CR>
-    nnoremap <C-3> :diffg RE<CR>
-    nnoremap <C-Up> [c
-    nnoremap <C-Down> ]c
+    " nnoremap <C-1> :diffg LO<CR>
+    " nnoremap <C-2> :diffg BA<CR>
+    " nnoremap <C-3> :diffg RE<CR>
+    nnoremap <Leader>g1 :diffg LO<CR>
+    nnoremap <Leader>g2 :diffg BA<CR>
+    nnoremap <Leader>g3 :diffg RE<CR>
+    " nnoremap <C-Up> [c
+    " nnoremap <C-Down> ]c
+    nnoremap <Leader>gu [c
+    nnoremap <Leader>gd ]c
 endif
 
 "Grep commands
@@ -748,3 +730,4 @@ nnoremap <silent> <Leader>sco :call Cscope('3', expand('<cword>'))<CR>
 "Hightlight characters that are further than 80 characters
 highlight ColorColumn ctermbg=magenta
 call matchadd('ColorColumn', '\%81v', 100)
+call matchadd('ColorColumn', '\%121v', 100)
