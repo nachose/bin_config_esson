@@ -6,8 +6,11 @@ alias .... cd ../../..
 alias ..... cd ../../../..
 alias ...... cd ../../../../..
 alias vi vim -X
-alias alco alfred -v compile
-alias alte alfred -v test
+alias alco 'alfred -v compile'
+alias alte 'alfred -v test'
+alias alset 'alfred -v deps-set'
+alias alall 'alset && alco && alte'
+alias alct 'alco && alte'
 alias ngrep 'grep --color=always -n'
 alias less 'less -R -F -X -N' #-R for displaying terminal colors, -N for showing numbers, -F for exit if less than one screen
 alias top 'top -u esecjos'
@@ -34,6 +37,7 @@ alias bob_image 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob image |&
 alias git_showfirst  'git show `git log -1 --oneline | cut -d " " -f 1`'
 alias build_epg 'build -c Linux_x86_64 -r -t -D |& tee ../log_epg_build.txt'
 alias grep_zombies 'ps aux | grep esecjos | grep "Z"'
+alias cppcheckt_last 'cppcheck --language=c++ -I/repo/esecjos/cdpi-main/NSDdependencies/cdpi-toolkit/NSNunit/lib/nsunit/ `git lastnames` > log_cppcheck.txt'
 
 
 
@@ -63,3 +67,8 @@ setenv handler_text_exec_dir ${DEVDIR}/cdpi-main/cmake_build/epg/NSDpfcphandler/
 setenv WORK_DIR ${DEVDIR}/cdpi-main/NSDserviceFunctions/lib/reporting
 
 source ~/.modules
+
+# function see_mdfile()
+# {
+#     pandoc $1 | lynx -stdin
+# }

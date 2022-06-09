@@ -22,3 +22,6 @@ module add multitail
 module load kubectl/latest
 module load firefox/latest
 module load helm/3.7.2
+module add meld
+module add pandoc/2.14.0.2
+module add lynx

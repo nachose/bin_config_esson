@@ -148,6 +148,12 @@ Plug 'tpope/vim-repeat'
 Plug 'kuznetsss/shswitch'
 "Syntax for log files
 Plug 'dzeban/vim-log-syntax'
+"Diff a range of lines
+Plug 'AndrewRadev/linediff.vim'
+"Task List 
+Plug 'vim-scripts/TaskList.vim'
+"DoxygenToolkit generator plugin
+Plug 'vim-scripts/DoxygenToolkit.vim'
 
 
 "Some colorschemes"
@@ -371,33 +377,37 @@ nnoremap <c-k><c-f> vi{=
 :nnoremap <leader>( viw<esc>i)<esc>hbi(<esc>lel
 "Surround selected text with ".
 :vnoremap <leader>a" `<vi"<esc>`>i"<esc>
-"Escape of insert mode with kj
+"Escape from insert mode with kj
 :inoremap kj <esc>
+"Escape from visual mode with kj
+:vnoremap kj <esc>
 "Ctrl+Inicio para ir al primer tab.
 :nnoremap <c-Home> :tabr<cr>
 "Ctrl+Fin para ir al ultimo tab.
 :nnoremap <c-End> :tabl<cr>
 "set syntax=cpp
-:nnoremap <leader>cpp :set syntax=cpp<cr>
+":nnoremap <leader>cpp :set syntax=cpp<cr>
 "set syntax=js
-:nnoremap <leader>js :set syntax=js<cr>
+":nnoremap <leader>js :set syntax=js<cr>
 "move tab + 1
-:nnoremap <c-+> :tabm +1<cr>
+":nnoremap <c-+> :tabm +1<cr>
 "move tab - 1
-:nnoremap <c--> :tabm -1<cr>
+":nnoremap <c--> :tabm -1<cr>
 "no higlight mapped to _nh
-:nnoremap _nh :noh<cr>
+":nnoremap _nh :noh<cr>
 "close all tabs.
-:nnoremap <leader>tca :tabdo tabc<cr>
+":nnoremap <leader>tca :tabdo tabc<cr>
 "remove writing restrictios for this file.
 :nnoremap <leader>rwr :!chmod a+w %<cr>:edit<cr>
 
 let g:Tlist_Ctags_Cmd = '/usr/bin/ctags'
 let g:Tlist_WinWidth = 50
 
+"""""""""""""" DoxygenToolkit plugin """"""""""""
 "Create doxygen header of function.
 :nnoremap <leader>d :Dox<CR>
 let g:DoxygenToolkit_paramTag_post = " [in] "
+let g:DoxygenToolkit_briefTag_funcName = "yes"
 
 "Save automatically all files when focus lost.
 :au FocusLost * silent! wa
@@ -417,11 +427,6 @@ nnoremap ]I ]I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
 ":profile pause
 ":noautocmd qall!
 "
-"""""""""""""""""""" Unite.vim config """""""""""""
-"call unite#filters#matcher_default#use(['matcher_fuzzy'])
-"nnoremap <leader>r :<C-u>Unite -start-insert file_rec<CR> 
-
-
 """""" gitgutter config """""
 "Disable all mappings
 let g:gitgutter_map_keys = 0
@@ -507,8 +512,7 @@ let g:airline#extensions#hunks#enabled = 1
 "Integration with nerdtree
 let g:airline#extensions#nerdtree_statusline = 1
 
-""""""""""" ALE configuration """"""
-" Set this. Airline will handle the rest.
+""""""""""" ALE configuration """""" " Set this. Airline will handle the rest.
 let g:ale_completion_enabled = 1
 let g:ale_pattern_options_enabled = 1
 "Set flags for gcc/clang
@@ -523,12 +527,18 @@ let g:ale_cpp_clangtidy_options=opts_clang_tidy
 let g:ale_c_cc_options    = opts_c
 let g:ale_c_gcc_options   = opts_c
 let g:ale_c_clang_options = opts_c
-let g:ale_fixers = { 'cpp': ['trim_whitespace', 'remove_trailing_lines', 'clangtidy'], 'c': ['trim_whitespace', 'remove_trailing_lines', 'clangtidy'] }
+let g:ale_fixers = {
+      \'cpp': ['trim_whitespace', 'remove_trailing_lines', 'clangtidy'],
+      \'c': ['trim_whitespace', 'remove_trailing_lines', 'clangtidy'],
+      \'bash': ['trim_whitespace', 'remove_trailing_lines']
+      \ }
 let dpi_build_dir='/repo/esecjos/buildout/'
 let pcg_build_dir='/repo/esecjos/epg/up/build/'
 let epg_build_dir=''
 let g:ale_c_build_dir = dpi_build_dir
-let g:ale_cpp_build_dir = dpi_build_dir
+"let g:ale_cpp_build_dir = dpi_build_dir
+let g:ale_c_parse_compile_commands = 1
+let g:ale_c_build_dir_names = ['build', 'bin', 'buildout', 'epg', 'cmake_build']
 let g:ale_fix_on_save=1
 let g:ale_set_balloons = 1
 let g:ale_hover_cursor = 1
@@ -536,8 +546,8 @@ let g:ale_set_balloons =1
 let g:ale_hover_to_floating_preview =1
 let g:ale_floating_preview =1
 let g:ale_cursor_detail=1
-let g_ale_echo_delay=100 "Milliseconds
-let g_ale_close_preview_on_insert=1
+let g:ale_echo_delay=200 "Milliseconds
+let g:ale_close_preview_on_insert=0
 
 "Automatic Hovering
 augroup ale_hover_cursor
@@ -569,6 +579,18 @@ endif
 "Choose an open buffer from the list
 "The ending space is intended
 nnoremap <Leader>ls :ls<CR>:b
+nnoremap <Leader>tabs :call GoToTab()<CR>
+
+function! GoToTab()
+  :tabs
+  let tab_number = input("Tab :")
+  let mycomm = tab_number . "gt"
+  echo mycomm
+  input("Hola")
+  "execute(mycomm)
+  execute("tabr")
+endfunction
+
 
 ""Cursor settings, lets see
 "if &term =~ "xterm\\|rxvt"
@@ -622,13 +644,13 @@ if &diff
     " nnoremap <C-1> :diffg LO<CR>
     " nnoremap <C-2> :diffg BA<CR>
     " nnoremap <C-3> :diffg RE<CR>
-    nnoremap <Leader>g1 :diffg LO<CR>
-    nnoremap <Leader>g2 :diffg BA<CR>
-    nnoremap <Leader>g3 :diffg RE<CR>
+    nnoremap g1 :diffg LO<CR>
+    nnoremap g2 :diffg BA<CR>
+    nnoremap g3 :diffg RE<CR>
     " nnoremap <C-Up> [c
     " nnoremap <C-Down> ]c
-    nnoremap <Leader>gu [c
-    nnoremap <Leader>gd ]c
+    nnoremap gu [c
+    nnoremap gd ]c
 endif
 
 "Grep commands
@@ -729,5 +751,37 @@ nnoremap <silent> <Leader>sco :call Cscope('3', expand('<cword>'))<CR>
 
 "Hightlight characters that are further than 80 characters
 highlight ColorColumn ctermbg=magenta
-call matchadd('ColorColumn', '\%81v', 100)
+"call matchadd('ColorColumn', '\%81v', 100)
+call matchadd('ColorColumn', '\%101v', 100)
 call matchadd('ColorColumn', '\%121v', 100)
+
+"""""""Functions to call delete temporary files """""""""""""""""""
+function! DeleteOrig()
+  :!find . -name '*.orig' -delete
+endfunction
+function! DeleteBkp()
+  :!find . -name '*bkp' -delete
+endfunction
+function! DeleteAll()
+  :call DeleteOrig()
+  :call DeleteBkp()
+endfunction
+"""""""""""End functions"""""""""""""""""""""""""""""""""""""""""""
+
+"""""""Search for merge marks""""""""
+"nnoremap <Leader>sem /<<<\|>>>\|===\||||
+"""""""Search previous""""""""""""""
+nnoremap <Leader>sep /<C-p><CR>
+nnoremap <Leader>sep2 /<C-p><C-p><CR>
+nnoremap <Leader>sep3 /<C-p><C-p><C-p><CR>
+"""""""Substitute symbols for symbols with spaces on selection""""""""
+vnoremap <Leader>sus :s/\(\S\)\([-+=?:*]\)\([^>=]\)/\1 \2 \3/g<CR>
+
+""""""""""""""Not configuration, but vim commands """""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+":vs#  --> open in split last closed file (it's the alternative file, #).
+"Ctrl + ^ --> Change between current and alternate files
+"--Surround plugin--"
+"Select in visual mode then press S+char --> Surround selected with char
+
+"""""""""""""End commands""""""""""""""""""""""""""""""""

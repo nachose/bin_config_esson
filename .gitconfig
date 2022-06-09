@@ -9,8 +9,6 @@
 [alias]
     alias = config --global -l
 
-    #l = log -15 --color=always --pretty=format:'%C(always,yellow)%h %Cred%ad %C(always,magenta) %cd %C(always,cyan) %an %Cgreen%d %Creset%s' --date=relative # --date=iso
-    #l = log -15 --color=always --pretty=format:'%C(always,yellow)%h %Cred%ad %C(always,magenta) %cd %C(always,cyan) %an %Cgreen%d %Creset%s' --date=short #--date=iso
     l = log --color=always --pretty=format:'%C(always,yellow)%h %Cred%H %C(always,magenta) %cd %C(always,cyan) %an %Cgreen%d %Creset%s' --date=iso
     l1 = log -15 --color=always --pretty=format:'%C(always,yellow)%h %Cred%H %C(always,magenta) %cd %C(always,cyan) %an %Cgreen%d %Creset%s' --date=iso
     l2 = log -30 --color=always --pretty=format:'%C(always,yellow)%h %Cred%H %C(always,magenta) %cd %C(always,cyan) %an %Cgreen%d %Creset%s' --date=iso
@@ -54,6 +52,12 @@
 
     se = !git rev-list --all | xargs git grep -F
     showlastchanges = show -1 --numstat
+    lastnames = log -1 --name-only --pretty=""
+    listconflictedfiles = diff --name-only --diff-filter=U --relative
+    remainingconflicts = diff --check
+    conflicts = !git ls-files --unmerged | cut -f2 | sort -u
+    count-conflicts = !grep -c '^=======$'
+    count-all-conflicts = !grep -c '^=======$' $(git conflicts)
 [core]
     excludesfile = /home/esecjos/.gitignore_global
     #editor = vim -u NONE
@@ -65,14 +69,30 @@
 [merge]
     tool = kdiff3
     #tool = vimdiff
+    #tool = meld
     conflictstyle = diff3
-	renamelimit = 10000
+    renamelimit = 10000
 [mergetool]
-	prompt = false
+    prompt = false
 [diff]
-	algorithm = histogram
-    tool = vimdiff
+    algorithm = histogram
+    #tool = vimdiff
+    tool = kdiff3
 
+#Do not trust after saving a file, that the file is correctly merged, and then add it.
+#Ask in the command line if the file is correctly merged.
+[mergetool "kdiff3"]
+    trustExitCode = false
+[mergetool "vimdiff"]
+    trustExitCode = false
+[mergetool "meld"]
+    trustExitCode = false
 #[difftool]
 #    vimdiff.cmd = vimdiff $LOCAL $REMOTE
 
+
+
+###########################Commands, not configuration####################
+#git diff --check  --> list remaining conflicts
+#git ls-files --unmerged  --> list unmerged files
+##########################################################################

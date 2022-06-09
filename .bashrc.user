@@ -9,6 +9,9 @@ export EDITOR=vim
 export VISUAL=vim
 #export LC_CTYPE=C.UTF-8 #Needed for gdb-dashboard
 
+#Same as implicit cd in tcsh
+shopt -s autocd
+
 
 alias ......='cd ../../../../..'
 alias .....='cd ../../../..'
@@ -25,7 +28,7 @@ alias bob_build='env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob build'
 alias bob_debug='env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob -p build-type=Debug generate build'
 alias bob_init='env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob init generate pull'
 alias bob_push='env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob push'
-alias grep='grep --color=always'
+#alias grep='grep --color=always'
 #When invoking vim, don't connect to x server.
 alias vi='vim -X'
 
