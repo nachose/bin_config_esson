@@ -14,7 +14,8 @@ cp ~/.tigrc ${BIN_DIR}
 cp ~/.modules ${BIN_DIR}
 cp ~/procesaDDC.sh ${BIN_DIR}
 cp ~/dataPrueba.sh ${BIN_DIR}
-cp ~/repo/.clang-format ${BIN_DIR}
+cp /repo/esecjos/.clang-format ${BIN_DIR}
+cp ~/quickui_config.vim ${BIN_DIR}
 
 
 

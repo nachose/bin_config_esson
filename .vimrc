@@ -40,7 +40,8 @@ filetype on              "filetype detection
 set viminfo='40,<50,s10,h "value for vim info, it's the default value and I've only changed first parameter, to have 40 files in :oldfiles or :browse oldfiles list, mru
 "set termguicolors        "Set real color
 
-set switchbuf+=usetab,newtab "Use tab that already exists while changing, new tab when opening new buffer
+"Do not delete
+"set switchbuf+=usetab,newtab "Use tab that already exists while changing, new tab when opening new buffer
 "Set the preview window in a hover, instead of a window
 "set previewpopup=height:10,width:120
 "Search down into subfolders
@@ -66,14 +67,19 @@ set foldmethod=indent
 "set foldmethod=manual
 "nivel de plegado a partir de 1 tabulación.
 set foldlevel=10
-set ballooneval
-set balloonevalterm
+if !has('nvim')
+  set ballooneval
+  set balloonevalterm
+endif
 """""""""""""""""""""Mouse settings """""""""""""""""
 set mouse=a
-set ttymouse=xterm
+if !has('nvim')
+  set ttymouse=xterm
+endif
 
 "Omnicompletion options
-set omnifunc=syntaxcomplete#Complete
+"set omnifunc=syntaxcomplete#Complete
+set omnifunc=ale#completion#OmniFunc
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "Beggining of vim.plug
@@ -97,11 +103,11 @@ Plug 'tpope/vim-surround'
 "Alternate between cpp and h
 Plug 'dantler/vim-alternate'
 "Autocomplete, not from github
-Plug '~/.vim/plugged/autocomplpop/'
+Plug 'vim-scripts/AutoComplPop'
 "VCScommands, not from github
 Plug '~/.vim/plugged/vcscommand/'
 "Refactor plugin, not from github
-Plug '~/.vim/plugin/'
+Plug 'vim-scripts/refactor'
 "Cpp completion
 Plug 'vim-scripts/OmniCppComplete'
 "Easier marks
@@ -139,7 +145,7 @@ Plug 'junegunn/gv.vim'
 "fugitive, is needed by gv
 Plug 'tpope/vim-fugitive'
 "Ale, asynchronous replacement for syntastic
-Plug 'dense-analysis/ale'
+Plug 'nachose/ale'
 "Easy align plugin
 Plug 'junegunn/vim-easy-align'
 "Repeat for plugins
@@ -150,10 +156,25 @@ Plug 'kuznetsss/shswitch'
 Plug 'dzeban/vim-log-syntax'
 "Diff a range of lines
 Plug 'AndrewRadev/linediff.vim'
-"Task List 
+"Task List
 Plug 'vim-scripts/TaskList.vim'
 "DoxygenToolkit generator plugin
 Plug 'vim-scripts/DoxygenToolkit.vim'
+"Terminal inside vim
+Plug 'rosenfeld/conque-term'
+"Blamer as VS Code Git Lens plugin
+Plug 'APZelos/blamer.nvim'
+"Syntax for markdown files
+Plug 'rhysd/vim-gfm-syntax'
+"Refactor
+Plug 'apalmer1377/factorus'
+"Better buffer switching, buffergator.
+Plug 'jeetsukumaran/vim-buffergator'
+"Preview of replacements
+Plug 'markonm/traces.vim'
+"Quick gui
+Plug 'skywind3000/vim-quickui'
+
 
 
 "Some colorschemes"
@@ -175,7 +196,8 @@ set background=dark
 "colorscheme vividchalk
 colorscheme afterglow
 "Open quicfix items in new tab
-autocmd FileType qf nnoremap <buffer> <Enter> <C-W><Enter><C-W>T
+"Do not delete
+"autocmd FileType qf nnoremap <buffer> <Enter> <C-W><Enter><C-W>T
 
 
 """""""""""""""""""""""""""""""""""""""  TAGS  """"""""""""""""""""""
@@ -247,6 +269,11 @@ let b:SignatureWrapJumps = 1
 """""""""""""" Taglist options """"""
 nnoremap <F5> :TlistToggle<CR>
 let Tlist_Show_One_File = 1 "Display tags of multiple files at different times, only the current file's
+let Tlist_Auto_Highlight_Tag = 1 "Hightlight matching tag
+let Tlist_Display_Prototype = 0 "Display function prototype instead of only tag name.
+let g:Tlist_Ctags_Cmd = '/usr/bin/ctags'
+let g:Tlist_WinWidth = 50
+let g:Tlist_Auto_Update = 0
 
 """""""""""""" GV options, git commit browser """"""""
 "Log of commits
@@ -271,23 +298,35 @@ set noswapfile   "no generar archivos de swap. Si se va la luz me quedo sin los 
 set autowrite    "salva el archivo actual al cambiar de buffer.
 
 """"""""""""""""""""Undo persistance"""""""""""""""""""""
-set undodir=~/.vim/undodir
+if has('nvim')
+  set undodir=~/.nvim/undodir
+else
+  set undodir=~/.vim/undodir
+endif
 set undofile
 
 
 """"""""""""""""""""""" Autocmds """"""""""""""""""""""""""""
-autocmd BufRead *.qs set syntax=javascript         "Si se lee un qs la sintaxis es javascript.
-autocmd BufRead *.vim set syntax=vim
-autocmd BufRead *.sh set syntax=sh
-autocmd BufRead *.bash set syntax=bash
-au BufRead *.html set filetype=htmlm4  "Syntax of html + javascript
-"Change colorscheme when entering and leaving insert mode
-"autocmd InsertEnter * :colorscheme onedark
-"autocmd InsertLeave * :colorscheme vividchalk
-autocmd InsertEnter * set cursorcolumn
-autocmd InsertLeave * set nocursorcolumn
-autocmd FileChangedShell * echohl WarningMsg | echo "File has been changed outside of vim." | echohl None
-autocmd FileType yaml set tabstop=2 shiftwidth=2 "yaml files have a tab of two characters
+"Create a group so that they are not duplicated if reloading configuration
+
+augroup vimrc
+    " Remove all autocommands for this group
+    autocmd!
+    "autocmd BufRead *.qs set syntax=javascript         "Si se lee un qs la sintaxis es javascript.
+    autocmd BufRead *.vim set syntax=vim
+    autocmd BufRead *.sh set syntax=sh
+    autocmd BufRead *.bash set syntax=bash
+    au BufRead *.html set filetype=htmlm4  "Syntax of html + javascript
+    "Change colorscheme when entering and leaving insert mode
+    "autocmd InsertEnter * :colorscheme onedark
+    "autocmd InsertLeave * :colorscheme vividchalk
+    autocmd InsertEnter * set cursorcolumn
+    autocmd InsertLeave * set nocursorcolumn
+    autocmd FileChangedShell * echohl WarningMsg | echo "File has been changed outside of vim." | echohl None
+    autocmd FileType yaml set tabstop=2 shiftwidth=2 "yaml files have a tab of two characters
+    "Refresh buffergator automatically when opening a new buffer
+    "autocmd FileReadPost * <Plug>(BuffergatorUpdate)
+augroup END
 
 """""""""""""""""" Tab management """"""""""""""""""""""""""""""""""""""""""""
 "Ctrl +x para cerrar pestañas.
@@ -366,7 +405,7 @@ inoremap <c-u> <esc>viwUi
 "Uppercase inner word.
 nnoremap <c-u> viwU<esc>
 "Seleccionar el interior de parentesis
-nnoremap <c-z> vi{
+"nnoremap <c-z> vi{
 "Seleccionar e indentar.
 nnoremap <c-k><c-f> vi{=
 "Surround word with "
@@ -378,9 +417,9 @@ nnoremap <c-k><c-f> vi{=
 "Surround selected text with ".
 :vnoremap <leader>a" `<vi"<esc>`>i"<esc>
 "Escape from insert mode with kj
-:inoremap kj <esc>
+:inoremap kj <esc>:w<CR>
 "Escape from visual mode with kj
-:vnoremap kj <esc>
+:vnoremap kj <esc>:w<CR>
 "Ctrl+Inicio para ir al primer tab.
 :nnoremap <c-Home> :tabr<cr>
 "Ctrl+Fin para ir al ultimo tab.
@@ -400,8 +439,6 @@ nnoremap <c-k><c-f> vi{=
 "remove writing restrictios for this file.
 :nnoremap <leader>rwr :!chmod a+w %<cr>:edit<cr>
 
-let g:Tlist_Ctags_Cmd = '/usr/bin/ctags'
-let g:Tlist_WinWidth = 50
 
 """""""""""""" DoxygenToolkit plugin """"""""""""
 "Create doxygen header of function.
@@ -475,7 +512,9 @@ let c_no_tab_space_error = 1
 
 "Set term xterm, to avoid some errors that were making some of the mappings
 "not to work
-set term=xterm
+if !has('nvim')
+  set term=xterm
+endif
 "Fix backspace
 :if &term == "xterm"
 :  set t_kD=^V<Delete>
@@ -486,11 +525,30 @@ set term=xterm
 "Clear matches
 :nnoremap <silent> <Leader>ch :call clearmatches()<CR>
 
-"Rainbow parentheses config
+""""""""""""""""""""""""  Rainbow parentheses config """""""""""""""""""
 au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
+let g:rbpt_colorpairs = [
+    \ ['brown',       'RoyalBlue3'],
+    \ ['Blue',        'SeaGreen3'],
+    \ ['darkgray',    'DarkOrchid3'],
+    \ ['darkgreen',   'firebrick3'],
+    \ ['darkcyan',    'RoyalBlue3'],
+    \ ['darkred',     'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['brown',       'firebrick3'],
+    \ ['gray',        'RoyalBlue3'],
+    \ ['black',       'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['Darkblue',    'firebrick3'],
+    \ ['darkgreen',   'RoyalBlue3'],
+    \ ['darkcyan',    'SeaGreen3'],
+    \ ['darkred',     'DarkOrchid3'],
+    \ ['red',         'firebrick3'],
+    \ ]
+
 
 """"""""""""Airline extension""""""""""""""""""""""
 "CAPS statusline
@@ -519,7 +577,12 @@ let g:ale_pattern_options_enabled = 1
 let opts_cpp = '-std=c++17 -Wall -Wextra -I/proj/epg-tools/compilers/ericsson-clang9.0.1-008cfeee88-rhel7.6-binutils2.32-stdlibgcc9.2.0/include/c++/9.2.0'
 let opts_c = ''
 let opts_clang_tidy=opts_cpp . '-- -I/proj/epg-tools/compilers/ericsson-clang9.0.1-008cfeee88-rhel7.6-binutils2.32-stdlibgcc9.2.0/include/c++/9.2.0'
-let g:ale_linters = { 'cpp': ['cc', 'gcc', 'clangd', 'cppcheck', 'clangtidy'], 'c': ['cc', 'gcc', 'clangd', 'cppcheck', 'clangtidy'] }
+"Seems that options do replace the originals, and not be added, so I need to
+"not define them.
+"let g:ale_c_cppcheck_options=' --inconclusive --suppress=unusedFunction --suppress=missingInclude'
+"let g:ale_cpp_cppcheck_options=' --inconclusive --suppress=unusedFunction --suppress=missingInclude'
+"let g:ale_linters = { 'cpp': ['cc', 'gcc', 'clangd', 'cppcheck', 'clangtidy'], 'c': ['cc', 'gcc', 'clangd', 'cppcheck', 'clangtidy'] }
+let g:ale_linters = { 'cpp': ['cc', 'clangd', 'cppcheck', 'clangtidy'], 'c': ['cc', 'clangd', 'cppcheck', 'clangtidy'] }
 let g:ale_cpp_cc_options    = opts_cpp
 let g:ale_cpp_gcc_options   = opts_cpp
 let g:ale_cpp_clang_options = opts_cpp
@@ -535,7 +598,18 @@ let g:ale_fixers = {
 let dpi_build_dir='/repo/esecjos/buildout/'
 let pcg_build_dir='/repo/esecjos/epg/up/build/'
 let epg_build_dir=''
-let g:ale_c_build_dir = dpi_build_dir
+
+"Try to dinamically select the directory. If I let this empty, then cppcheck
+"does not work because, although ale finds successfully the directory of the
+"compile_commands.json, it uses a relative route, and this doesn't work with
+"cppcheck because it prevously changes directory
+if getcwd()  =~ 'cdpi-main'
+  let g:ale_c_build_dir = dpi_build_dir
+else
+  let g:ale_c_build_dir = pcg_build_dir
+endif
+
+"let g:ale_c_build_dir = dpi_build_dir
 "let g:ale_cpp_build_dir = dpi_build_dir
 let g:ale_c_parse_compile_commands = 1
 let g:ale_c_build_dir_names = ['build', 'bin', 'buildout', 'epg', 'cmake_build']
@@ -551,6 +625,7 @@ let g:ale_close_preview_on_insert=0
 
 "Automatic Hovering
 augroup ale_hover_cursor
+  " Remove all autocommands for this group
   autocmd!
   autocmd CursorHold * ALEHover
 augroup END
@@ -626,7 +701,7 @@ map <Leader>gw :execute " grep -srnw --color=never --binary-files=without-match 
 """"""""""""""""Vimrc management""""""""""""""""""""
 "Mapear _ev a abrir _vimrc.
 "nnoremap <leader>ev :tabe $MYVIMRC<CR>
-nnoremap <leader>ev :tabe $MYVIMRC<CR>
+nnoremap <leader>ev :e $MYVIMRC<CR>
 "Reload _vimrc.
 nnoremap <leader>sv :source $MYVIMRC<CR>
 
@@ -777,11 +852,37 @@ nnoremap <Leader>sep3 /<C-p><C-p><C-p><CR>
 """""""Substitute symbols for symbols with spaces on selection""""""""
 vnoremap <Leader>sus :s/\(\S\)\([-+=?:*]\)\([^>=]\)/\1 \2 \3/g<CR>
 
+
+"""""""""""""""Blamer plugin""""""""""""""""""""""""""""""""""""""""""
+let g:blamer_enabled = 0 "De momento, deshabilitado, por lento.
+" if has('nvim')
+"   let g:blamer_enabled = 1
+" endif
+let g:blamer_delay = 500
+let g:blamer_prefix = ' > '
+
+"""""Navigate tabs """"""""
+map <C-Left> :tabprevious<CR>
+map <C-Right> :tabnext<CR>
+""""""Navigate buffers"""""""""""""
+nmap bn :bn<CR>
+nmap bp :bp<CR>
+
+""""""""""Buffergator config""""""""""""""""""""""""""
+let g:buffergator_autodismiss_on_select=0
+let g:buffergator_autoupdate=1
+
+"""""""""""""""""""Quickui""""""""""""""""""""""""""""
+source ~/quickui_config.vim
+
+
 """"""""""""""Not configuration, but vim commands """""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""
 ":vs#  --> open in split last closed file (it's the alternative file, #).
 "Ctrl + ^ --> Change between current and alternate files
 "--Surround plugin--"
 "Select in visual mode then press S+char --> Surround selected with char
+"
+"See mapping of a command :verbose map whatever
 
 """""""""""""End commands""""""""""""""""""""""""""""""""

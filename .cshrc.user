@@ -1,5 +1,11 @@
 source /proj/dpi/cdpi_environment/envconfig.sh
 
+setenv DEVDIR /repo/esecjos
+#Add directory for neovim executable
+setenv PATH $PATH":"/home/esecjos/.local/bin":"/home/esecjos/neovim/bin
+#Add directory for amp executable
+setenv PATH $PATH":"/home/esecjos/.cargo/bin
+
 alias .. cd ..
 alias ... cd ../..
 alias .... cd ../../..
@@ -14,7 +20,8 @@ alias alct 'alco && alte'
 alias ngrep 'grep --color=always -n'
 alias less 'less -R -F -X -N' #-R for displaying terminal colors, -N for showing numbers, -F for exit if less than one screen
 alias top 'top -u esecjos'
-alias ps 'ps -u esecjos'
+alias ps 'ps -u esecjos -ef'
+alias pstree 'pstree esecjos'
 alias htop 'htop -u esecjos'
 alias killall 'killall -u esecjos'
 alias du 'du -h'
@@ -38,15 +45,20 @@ alias git_showfirst  'git show `git log -1 --oneline | cut -d " " -f 1`'
 alias build_epg 'build -c Linux_x86_64 -r -t -D |& tee ../log_epg_build.txt'
 alias grep_zombies 'ps aux | grep esecjos | grep "Z"'
 alias cppcheckt_last 'cppcheck --language=c++ -I/repo/esecjos/cdpi-main/NSDdependencies/cdpi-toolkit/NSNunit/lib/nsunit/ `git lastnames` > log_cppcheck.txt'
+alias plantuml 'java -jar /app/vbuild/tools/plantuml/1.2019.11/bin/plantuml.jar'
+alias pgrep 'pgrep -u esecjos'
+alias cmake_dpi 'cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DINTEGRATION_MODE=OFF -DCMAKE_TOOLCHAIN_FILE=/repo/esecjos/BuildAndTools/cmake/linux_x86_64.cmake -DUSE_MEMCHECK_VALGRID=ON -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DUSE_EPG_3PP=ON -GNinja .. '\
+                ' &| tee cmake_dpi_log.txt'
+alias ninja_log 'ninja |& tee ../../ninja_dpi_log.txt'
 
 
 
 #Set dev dir
-setenv DEVDIR /repo/esecjos/
+setenv REPO_DIR /repo/esecjos/
 setenv CORES_DIR /lab/epg_ft/teams/team_toberano
 setenv RELEASES_DIR /lab/epg_scm19_builds/epg3/release/
-setenv CDPI_DIR ${DEVDIR}/cdpi-main
-setenv EPG_DIR ${DEVDIR}/epg
+setenv DPI_DIR ${REPO_DIR}/cdpi-main
+setenv EPG_DIR ${REPO_DIR}/epg
 setenv EDITOR vim
 setenv VISUAL vim
 #setenv LC_ALL en_US.utf8
@@ -68,7 +80,4 @@ setenv WORK_DIR ${DEVDIR}/cdpi-main/NSDserviceFunctions/lib/reporting
 
 source ~/.modules
 
-# function see_mdfile()
-# {
-#     pandoc $1 | lynx -stdin
-# }
+module add slang/latest

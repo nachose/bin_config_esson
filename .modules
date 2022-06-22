@@ -4,7 +4,7 @@ module add qtcreator/4.6.2
 module add ctags/5.8
 module add nodejs/12.18.3
 module add octave
-module add cppcheck/2.6
+module add cppcheck/latest
 module add clang/13.0.0
 module add fzf/0.28.0
 #module add ripgrep
@@ -20,8 +20,13 @@ module add tig/2.4.1
 module add multitail
 #module add gdbgui
 module load kubectl/latest
-module load firefox/latest
+module load firefox/101.0.1
 module load helm/3.7.2
 module add meld
 module add pandoc/2.14.0.2
 module add lynx
+module add ccls/latest
+module add sublime_merge/latest
+module add sublime_text/latest
+module add python/3.10.4
+module add xclip/0.12
