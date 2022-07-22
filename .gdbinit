@@ -2383,3 +2383,5 @@ tui enable
 ## Local Variables:
 ## mode: python
 ## End:
+
+display child.name()

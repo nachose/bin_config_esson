@@ -62,9 +62,19 @@
     excludesfile = /home/esecjos/.gitignore_global
     #editor = vim -u NONE
     editor = vim
-    pager = less -R -F -X
+    #pager = less -R -F -X
     #pager = cat
+    pager = delta
 
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true
+    light = false
+    side-by-side = true
+    line-numbers = true
+    hyperlinks = false
 
 [merge]
     tool = kdiff3
@@ -78,6 +88,7 @@
     algorithm = histogram
     #tool = vimdiff
     tool = kdiff3
+    colorMoved = default
 
 #Do not trust after saving a file, that the file is correctly merged, and then add it.
 #Ask in the command line if the file is correctly merged.

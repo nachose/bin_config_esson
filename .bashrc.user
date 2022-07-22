@@ -28,6 +28,7 @@ alias bob_build='env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob build'
 alias bob_debug='env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob -p build-type=Debug generate build'
 alias bob_init='env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob init generate pull'
 alias bob_push='env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob push'
+alias plantuml='java -jar /app/vbuild/tools/plantuml/1.2019.11/bin/plantuml.jar'
 #alias grep='grep --color=always'
 #When invoking vim, don't connect to x server.
 alias vi='vim -X'

@@ -2,9 +2,11 @@ source /proj/dpi/cdpi_environment/envconfig.sh
 
 setenv DEVDIR /repo/esecjos
 #Add directory for neovim executable
-setenv PATH $PATH":"/home/esecjos/.local/bin":"/home/esecjos/neovim/bin
+setenv PATH /home/esecjos/.local/bin":"/home/esecjos/neovim/bin":"$PATH
 #Add directory for amp executable
-setenv PATH $PATH":"/home/esecjos/.cargo/bin
+setenv PATH /home/esecjos/.cargo/bin":"$PATH
+#Add delta directory
+setenv PATH /home/esecjos/delta/target/release/":"$PATH
 
 alias .. cd ..
 alias ... cd ../..
@@ -43,12 +45,15 @@ alias bob_data_plane_clean 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/b
 alias bob_image 'env CCACHE_DIR=/workspace/git/${USER}/ccache ./bob/bob image |& tee ../log_bob_image.txt'
 alias git_showfirst  'git show `git log -1 --oneline | cut -d " " -f 1`'
 alias build_epg 'build -c Linux_x86_64 -r -t -D |& tee ../log_epg_build.txt'
+alias build_epg_up ' build -c lin up/all |& tee ../log_epg_up_build.txt'
 alias grep_zombies 'ps aux | grep esecjos | grep "Z"'
 alias cppcheckt_last 'cppcheck --language=c++ -I/repo/esecjos/cdpi-main/NSDdependencies/cdpi-toolkit/NSNunit/lib/nsunit/ `git lastnames` > log_cppcheck.txt'
 alias plantuml 'java -jar /app/vbuild/tools/plantuml/1.2019.11/bin/plantuml.jar'
 alias pgrep 'pgrep -u esecjos'
 alias cmake_dpi 'cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DINTEGRATION_MODE=OFF -DCMAKE_TOOLCHAIN_FILE=/repo/esecjos/BuildAndTools/cmake/linux_x86_64.cmake -DUSE_MEMCHECK_VALGRID=ON -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DUSE_EPG_3PP=ON -GNinja .. '\
-                ' &| tee cmake_dpi_log.txt'
+                '|& tee ../../cmake_dpi_log.txt'
+alias cmake_dpi_debug 'cmake -DCMAKE_BUILD_TYPE=Debug -DINTEGRATION_MODE=OFF -DCMAKE_TOOLCHAIN_FILE=/repo/esecjos/BuildAndTools/cmake/linux_x86_64.cmake -DUSE_MEMCHECK_VALGRID=ON -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DUSE_EPG_3PP=ON -GNinja .. '\
+                '|& tee ../../cmake_dpi_debug_log.txt'
 alias ninja_log 'ninja |& tee ../../ninja_dpi_log.txt'
 
 
@@ -61,6 +66,7 @@ setenv DPI_DIR ${REPO_DIR}/cdpi-main
 setenv EPG_DIR ${REPO_DIR}/epg
 setenv EDITOR vim
 setenv VISUAL vim
+setenv LAST_TR ${HOME}/last_tr
 #setenv LC_ALL en_US.utf8
 #setenv LC_CTYPE en_US.utf8
 
@@ -81,3 +87,4 @@ setenv WORK_DIR ${DEVDIR}/cdpi-main/NSDserviceFunctions/lib/reporting
 source ~/.modules
 
 module add slang/latest
+setenv LD_LIBRARY_PATH $HOME/tree-sitter

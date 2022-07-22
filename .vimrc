@@ -56,15 +56,15 @@ set backspace=indent,start,eol   "indent ->allows to delete indents
 "start  ->allows to move before the
 "beginning of the editing.
 
-set shortmess+=T "No hace falta pulsar <Enter> cuando hay un error.
+"set shortmess+=T "No hace falta pulsar <Enter> cuando hay un error.
 
 set nu                   "line numbers in the left
 "pliegues activados.
 set foldenable
-"activar plegado por tabulación.
-set foldmethod=indent
+""activar plegado por tabulación".
+"set foldmethod=indent
 "activar plegado manual.
-"set foldmethod=manual
+set foldmethod=manual
 "nivel de plegado a partir de 1 tabulación.
 set foldlevel=10
 if !has('nvim')
@@ -85,6 +85,12 @@ set omnifunc=ale#completion#OmniFunc
 "Beggining of vim.plug
 "Specify directory of plugins
 call plug#begin('~/.vim/plugged')
+
+if has('nvim')
+  Plug 'nvim-treesitter/nvim-treesitter'
+  "Blamer as VS Code Git Lens plugin
+  Plug 'APZelos/blamer.nvim'
+endif
 
 "Nerd tree
 Plug 'scrooloose/nerdtree'
@@ -115,7 +121,9 @@ Plug 'kshenoy/vim-signature'
 "Vim gutter
 Plug 'airblade/vim-gitgutter'
 "Airline, plugin for statusline
-Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline'
+" Lightline
+Plug 'itchyny/lightline.vim'
 "FZF plugin
 Plug 'junegunn/fzf'
 "FZF mappings
@@ -136,8 +144,6 @@ Plug 'djoshea/vim-autoread'
 Plug 'tpope/vim-commentary'
 "Additional c++ syntaxk highlight
 Plug 'octol/vim-cpp-enhanced-highlight'
-"Rainbow parentheses
-Plug 'kien/rainbow_parentheses.vim'
 "Better whitespace highlight
 Plug 'ntpeters/vim-better-whitespace'
 "gv git commit browser
@@ -162,18 +168,35 @@ Plug 'vim-scripts/TaskList.vim'
 Plug 'vim-scripts/DoxygenToolkit.vim'
 "Terminal inside vim
 Plug 'rosenfeld/conque-term'
-"Blamer as VS Code Git Lens plugin
-Plug 'APZelos/blamer.nvim'
 "Syntax for markdown files
 Plug 'rhysd/vim-gfm-syntax'
 "Refactor
 Plug 'apalmer1377/factorus'
 "Better buffer switching, buffergator.
-Plug 'jeetsukumaran/vim-buffergator'
+Plug 'nachose/vim-buffergator'
 "Preview of replacements
 Plug 'markonm/traces.vim'
 "Quick gui
-Plug 'skywind3000/vim-quickui'
+"Temporarily disabled, as it makes startup slower
+"Plug 'skywind3000/vim-quickui'
+"Run commands asynchronously and populate quicfix list with results.
+Plug 'skywind3000/asyncrun.vim'
+"Asynchronous tasks, with the idea of being able to run Compile, Execute, Test
+"within vim
+Plug 'skywind3000/asynctasks.vim'
+"Text processor
+Plug 'vimoutliner/vimoutliner'
+"Better vim terminal
+Plug 'skywind3000/vim-terminal-help'
+"Another file finder
+Plug 'liuchengxu/vim-clap'
+"Quick menu, same as quick gui, without the visual part. Hopefully this is lighter
+Plug 'skywind3000/quickmenu.vim'
+"Cmake syntax
+Plug 'pboettch/vim-cmake-syntax'
+"Multiseach
+Plug 'vim-scripts/MultipleSearch'
+
 
 
 
@@ -190,28 +213,34 @@ Plug 'joshdick/onedark.vim'
 call plug#end()
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+"""""""""""""""""""""""""""" Lightline """""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:lightline = {
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ }
+
 inoremap <c-tab> <c-r>=CompleteTab()<cr>
 
 set background=dark
-"colorscheme vividchalk
-colorscheme afterglow
+colorscheme vividchalk
+"colorscheme afterglow
 "Open quicfix items in new tab
 "Do not delete
 "autocmd FileType qf nnoremap <buffer> <Enter> <C-W><Enter><C-W>T
 
 
 """""""""""""""""""""""""""""""""""""""  TAGS  """"""""""""""""""""""
-noremap <C-x><C-x><C-T> :!ctags -R --c-kinds=+px --c++-kinds=+p --fields=+iaSKns --extra=+qf --excmd=number --exclude='*.js' --exclude='*.jpg' --exclude='*.so' --exclude='*.o' --exclude='*.html' --exclude='buildout' --exclude='tools' --exclude='3pp' --totals=yes -f /repo/esecjos/tags/tags_cpp /repo/esecjos/
+noremap <C-x><C-x><C-T> :!ctags -R --c-kinds=+px --c++-kinds=+p --fields=+iaSKns --extra=+qf --excmd=number --exclude='*.js' --exclude='*.jpg' --exclude='*.so' --exclude='*.o' --exclude='*.html' --exclude='buildout' --exclude='tools' --exclude='ccls-cache' --totals=yes -f /repo/esecjos/tags/tags_cpp /repo/esecjos/
 
 "Generation of tags
-"noremap <C-x><C-x><C-T> :!ctags -R --c-kinds=+px --c++-kinds=+p --fields=+iaS --extra=+q --exclude='*.js' --exclude='*.jpg' --exclude='*.so' --exclude='epg' -f /home/esecjos/tags/tags_cpp /repo/esecjos/
 set tags+=/repo/esecjos/tags/tags_cpp
 noremap <C-x><C-x><C-L> :!ctags -R --c++-kinds=+p --fields=+iaSKns --extra=+qf --totals=yes --excmd=number -f /repo/esecjos/tags/tags_std_library /proj/epg-tools/compilers/ericsson-clang9.0.1-008cfeee88-rhel7.6-binutils2.32-stdlibgcc9.2.0/include/c++/9.2.0
 set tags+=/repo/esecjos/tags/tags_std_library
 noremap <C-x><C-x><C-N> :!ctags -R --c-kinds=+px --fields=+iaSKns --extra=+qf --totals=yes --excmd=number -f /repo/esecjos/tags/tags_c_library /usr/include/
 set tags+=/repo/esecjos/tags/tags_c_library
 " -- ctags --
-" noremap <ctrl-x>+<ctrl-t> to generate ctags for current folder:
 noremap <C-x><C-t> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR><CR>
 " add current directory's generated tags file to available tags
 set tags+=./tags
@@ -219,7 +248,8 @@ set tags+=./tags
 "Remap _tag to do a lookup tag
 "nnoremap <leader>tag yiw:tag <C-r>"<CR>
 "Remap to lookup a tag and open in other tag
-nnoremap <leader>ta :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
+"nnoremap <leader>ta :tab split<CR>:exec("tag! ".expand("<cword>"))<CR>
+nnoremap <leader>ta :exec("tag! ".expand("<cword>"))<CR>
 "Remap _ptag to make a preview tag
 nnoremap <leader>pta yiw:ptag <C-r>"<CR>
 "Remap _psearch to see definition of symbol in window
@@ -245,13 +275,15 @@ let g:NERDTreeQuitOnOpen = 1
 
 " --- OmniCppComplete ---
 " -- configs --
-" let OmniCpp_MayCompleteDot      = 1 " autocomplete with .
-" let OmniCpp_MayCompleteArrow    = 1 " autocomplete with ->
+let OmniCpp_DisplayMode         = 0 "Show also private members
+let OmniCpp_ShowAccess          = 1 "Show access in abbreviation ( public + , protected # , private - )
+let OmniCpp_MayCompleteDot      = 1 " autocomplete with .
+let OmniCpp_MayCompleteArrow    = 1 " autocomplete with ->
 " let OmniCpp_MayCompleteScope    = 1 " autocomplete with ::
 " let OmniCpp_SelectFirstItem     = 2 " select first item (but don't insert)
 " let OmniCpp_NamespaceSearch     = 2 " search namespaces in this and included files
 let OmniCpp_ShowPrototypeInAbbr = 1 " show function prototype (i.e. parameters) in popup window
-" let OmniCpp_LocalSearchDecl     = 1 " don't require special style of function opening braces
+let OmniCpp_LocalSearchDecl     = 1 " don't require special style of function opening braces
 
 """""""""""""""""""""""""   Vim Signature configuration """"""""""""""""
 let g:SignatureMap = {
@@ -268,12 +300,13 @@ let b:SignatureWrapJumps = 1
 
 """""""""""""" Taglist options """"""
 nnoremap <F5> :TlistToggle<CR>
-let Tlist_Show_One_File = 1 "Display tags of multiple files at different times, only the current file's
-let Tlist_Auto_Highlight_Tag = 1 "Hightlight matching tag
-let Tlist_Display_Prototype = 0 "Display function prototype instead of only tag name.
-let g:Tlist_Ctags_Cmd = '/usr/bin/ctags'
-let g:Tlist_WinWidth = 50
-let g:Tlist_Auto_Update = 0
+let Tlist_Show_One_File       = 1 "Display tags of multiple files at different times, only the current file's
+let Tlist_Auto_Highlight_Tag  = 1 "Hightlight matching tag
+let Tlist_Display_Prototype   = 0 "Display function prototype instead of only tag name.
+let g:Tlist_Ctags_Cmd         = '/usr/bin/ctags'
+let g:Tlist_WinWidth          = 50
+let g:Tlist_Auto_Update       = 0
+let Tlist_Process_File_Always = 0 "Do not process tags when tag window is closed.
 
 """""""""""""" GV options, git commit browser """"""""
 "Log of commits
@@ -324,8 +357,6 @@ augroup vimrc
     autocmd InsertLeave * set nocursorcolumn
     autocmd FileChangedShell * echohl WarningMsg | echo "File has been changed outside of vim." | echohl None
     autocmd FileType yaml set tabstop=2 shiftwidth=2 "yaml files have a tab of two characters
-    "Refresh buffergator automatically when opening a new buffer
-    "autocmd FileReadPost * <Plug>(BuffergatorUpdate)
 augroup END
 
 """""""""""""""""" Tab management """"""""""""""""""""""""""""""""""""""""""""
@@ -383,12 +414,13 @@ command! -nargs=+ Mygrep execute 'silent grep! --color=never <args>' | copen 7
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """"""""""""""""""""""Refactor plugin"""""""""""""""""""""""""""""""""""""""
-nnoremap <leader>ic  :call IntroduceConstant()<CR>
-nnoremap <leader>rp  :call ReorderParameters()<CR>
-nnoremap <leader>rvp :call RemoveParameter()<CR>
-nnoremap <leader>rv  :call RenameVariable()<CR>
-nnoremap <leader>lvp :call LocalVariableToParameter()<CR>
-vnoremap <leader>em  :call ExtractMethod()<CR>
+nnoremap <leader>ric  :call IntroduceConstant()<CR>
+nnoremap <leader>rrp  :call ReorderParameters()<CR>
+nnoremap <leader>rrvp :call RemoveParameter()<CR>
+nnoremap <leader>rrv  :call RenameVariable()<CR>
+nnoremap <leader>rlvp :call LocalVariableToParameter()<CR>
+vnoremap <leader>rem  :call ExtractMethod()<CR>
+"""""""""""""""""""""End refactor""""""""""""""""""""""""""""""""""""""""""
 
 
 
@@ -420,6 +452,8 @@ nnoremap <c-k><c-f> vi{=
 :inoremap kj <esc>:w<CR>
 "Escape from visual mode with kj
 :vnoremap kj <esc>:w<CR>
+"Escape from command mode with kj
+:cnoremap kj <esc>:w<CR>
 "Ctrl+Inicio para ir al primer tab.
 :nnoremap <c-Home> :tabr<cr>
 "Ctrl+Fin para ir al ultimo tab.
@@ -437,7 +471,7 @@ nnoremap <c-k><c-f> vi{=
 "close all tabs.
 ":nnoremap <leader>tca :tabdo tabc<cr>
 "remove writing restrictios for this file.
-:nnoremap <leader>rwr :!chmod a+w %<cr>:edit<cr>
+:nnoremap <leader><leader>rwr :!chmod a+w %<cr>:edit<cr>
 
 
 """""""""""""" DoxygenToolkit plugin """"""""""""
@@ -464,7 +498,7 @@ nnoremap ]I ]I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
 ":profile pause
 ":noautocmd qall!
 "
-"""""" gitgutter config """""
+"""""""""""""""" gitgutter config """""""""""""""""""""""""""
 "Disable all mappings
 let g:gitgutter_map_keys = 0
 nnoremap <leader>gn :GitGutterNextHunk<CR>
@@ -473,6 +507,10 @@ nnoremap <leader>gp :GitGutterPrevHunk<CR>
 let g:gitgutter_async = 1
 "Show message when jumping
 let g:gitgutter_show_msg_on_hunk_jumping = 1
+"All modifications for current file in quickfix list
+nnoremap <leader>ggq :GitGutterQuickFixCurrentFile<CR>
+nnoremap <leader>ggp :GitGutterPreviewHunk<CR>
+""""""""""""""""""End gitgutter """""""""""""""""""""""""""""
 
 
 "Remap fzf a ctrlp
@@ -495,10 +533,28 @@ map  <Esc>[1;2C <S-Right>
 cmap <Esc>[1;2D <S-Left>
 cmap <Esc>[1;2C <S-Right>
 
-"Startify configuration
+"""""""""""""Startify configuration"""""""""""""""""""
 "Do not change to dir, and change to vcs root
 let g:startify_change_to_dir = 0
 let g:startify_change_to_vcs_root = 1
+"Do not save session when exiting
+let g:startify_session_persistence = 0
+let g:startify_lists = [
+          \ { 'type': 'files',     'header': ['   MRU']            },
+          \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
+          \ { 'type': 'sessions',  'header': ['   Sessions']       },
+          \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
+          \ { 'type': 'commands',  'header': ['   Commands']       },
+          \ ]
+
+let g:startify_bookmarks = [
+          \ '~/.vimrc', '~/.cshrc.user', '~/.gitconfig', '~/.modules', '~/.bashrc.user',
+          \ ]
+
+"The space at the end is intended
+nnoremap <leader>ss :SSave 
+
+""""""""""""End startify """"""""""""""""""""""""""""
 
 "Bracketed paste mode, to avoid strange characters while pasting to command line
 set t_BE=
@@ -525,52 +581,39 @@ endif
 "Clear matches
 :nnoremap <silent> <Leader>ch :call clearmatches()<CR>
 
-""""""""""""""""""""""""  Rainbow parentheses config """""""""""""""""""
-au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadRound
-au Syntax * RainbowParenthesesLoadSquare
-au Syntax * RainbowParenthesesLoadBraces
-let g:rbpt_colorpairs = [
-    \ ['brown',       'RoyalBlue3'],
-    \ ['Blue',        'SeaGreen3'],
-    \ ['darkgray',    'DarkOrchid3'],
-    \ ['darkgreen',   'firebrick3'],
-    \ ['darkcyan',    'RoyalBlue3'],
-    \ ['darkred',     'SeaGreen3'],
-    \ ['darkmagenta', 'DarkOrchid3'],
-    \ ['brown',       'firebrick3'],
-    \ ['gray',        'RoyalBlue3'],
-    \ ['black',       'SeaGreen3'],
-    \ ['darkmagenta', 'DarkOrchid3'],
-    \ ['Darkblue',    'firebrick3'],
-    \ ['darkgreen',   'RoyalBlue3'],
-    \ ['darkcyan',    'SeaGreen3'],
-    \ ['darkred',     'DarkOrchid3'],
-    \ ['red',         'firebrick3'],
-    \ ]
-
-
 """"""""""""Airline extension""""""""""""""""""""""
-"CAPS statusline
-let g:airline#extensions#capslock#enabled = 1
-let g:airline#extensions#ale#enabled = 1
-"Inactive windows only show name of file, left section is collapsed
-let g:airline_inactive_collapse=1
-"Inactive windows do have different separators.
-let g:airline_inactive_alt_sep=1
-"Airline layout
-let g:airline#extensions#default#layout = [ [ 'a', 'b', 'c' ], [ 'x', 'y', 'z', 'error', 'warning' ] ]
-"let g:airline#extensions#default#layout = [ [ 'a', 'b', 'c' ], [ 'x', 'y', 'z', 'error'] ]
-"Skip empty sections
-let g:airline_skip_empty_sections = 1
-"fzf integration.
-let g:airline#extensions#fzf#enabled = 1
-"Integration with gitgutter
-let g:airline#extensions#hunks#enabled = 1
-"Integration with nerdtree
-let g:airline#extensions#nerdtree_statusline = 1
+""CAPS statusline
+"let g:airline#extensions#capslock#enabled = 1
+"let g:airline#extensions#ale#enabled = 1
+""Inactive windows only show name of file, left section is collapsed
+"let g:airline_inactive_collapse=1
+""Inactive windows do have different separators.
+"let g:airline_inactive_alt_sep=1
+""Airline layout
+"" let g:airline#extensions#default#layout = [ [ 'a', 'b', 'c' ], [ 'x', 'y', 'z', 'error', 'warning' ] ]
+""let g:airline#extensions#default#layout = [ [ 'a', 'b', 'c' ], [ 'x', 'y', 'z', 'error'] ]
+""Do not show errors and warnings part, to try to make it faster.
+"let g:airline#extensions#default#layout = [ [ 'a', 'b', 'c' ], [ 'x', 'y', 'z'] ]
+""Skip empty sections
+"let g:airline_skip_empty_sections = 1
+""fzf integration, disabled.
+"let g:airline#extensions#fzf#enabled = 0
+""Integration with gitgutter, displays a hunk summary. Disabled
+"let g:airline#extensions#hunks#enabled = 0
+""Integration with nerdtree, disabled
+"let g:airline#extensions#nerdtree_statusline = 0
+""Taglist integration, disabled.
+"let g:airline#extensions#taglist#enabled = 0
+""Integration with lsp
+"let g:airline#extensions#lsp#enabled = 0
+""Update lsp related things only each second
+"let g:airline#extensions#lsp#progress_skip_time = 1
+""When only one tab, display all files in tabline
+""let g:airline#extensions#tabline#enabled = 1
 
-""""""""""" ALE configuration """""" " Set this. Airline will handle the rest.
+""""""""""" ALE configuration """""" "
+"Do not lint on text changed.
+let g:ale_lint_on_text_changed= 'never'
 let g:ale_completion_enabled = 1
 let g:ale_pattern_options_enabled = 1
 "Set flags for gcc/clang
@@ -581,8 +624,9 @@ let opts_clang_tidy=opts_cpp . '-- -I/proj/epg-tools/compilers/ericsson-clang9.0
 "not define them.
 "let g:ale_c_cppcheck_options=' --inconclusive --suppress=unusedFunction --suppress=missingInclude'
 "let g:ale_cpp_cppcheck_options=' --inconclusive --suppress=unusedFunction --suppress=missingInclude'
-"let g:ale_linters = { 'cpp': ['cc', 'gcc', 'clangd', 'cppcheck', 'clangtidy'], 'c': ['cc', 'gcc', 'clangd', 'cppcheck', 'clangtidy'] }
-let g:ale_linters = { 'cpp': ['cc', 'clangd', 'cppcheck', 'clangtidy'], 'c': ['cc', 'clangd', 'cppcheck', 'clangtidy'] }
+"let g:ale_linters = { 'cpp': ['cc', 'gcc', 'clangd', 'cppcheck', 'clangtidy'], 'c': ['cc', 'gcc', 'clangd', 'cppcheck', 'clangtidy'] "
+"let g:ale_linters = { 'cpp': ['cc', 'clangd', 'cppcheck', 'clangtidy'], 'c': ['cc', 'clangd', 'cppcheck', 'clangtidy'] }
+let g:ale_linters = { 'cpp': ['cc', 'ccls', 'clangd', 'cppcheck', 'clangtidy' ], 'c': ['cc', 'ccls', 'clangd', 'cppcheck', 'clangtidy'] }
 let g:ale_cpp_cc_options    = opts_cpp
 let g:ale_cpp_gcc_options   = opts_cpp
 let g:ale_cpp_clang_options = opts_cpp
@@ -595,24 +639,24 @@ let g:ale_fixers = {
       \'c': ['trim_whitespace', 'remove_trailing_lines', 'clangtidy'],
       \'bash': ['trim_whitespace', 'remove_trailing_lines']
       \ }
-let dpi_build_dir='/repo/esecjos/buildout/'
-let pcg_build_dir='/repo/esecjos/epg/up/build/'
-let epg_build_dir=''
+" let dpi_build_dir='/repo/esecjos/buildout/'
+" let pcg_build_dir='/repo/esecjos/epg/up/build/'
+" let epg_build_dir=''
 
 "Try to dinamically select the directory. If I let this empty, then cppcheck
 "does not work because, although ale finds successfully the directory of the
 "compile_commands.json, it uses a relative route, and this doesn't work with
 "cppcheck because it prevously changes directory
-if getcwd()  =~ 'cdpi-main'
-  let g:ale_c_build_dir = dpi_build_dir
-else
-  let g:ale_c_build_dir = pcg_build_dir
-endif
+" if getcwd()  =~ 'cdpi-main'
+"   let g:ale_c_build_dir = dpi_build_dir
+" else
+"   let g:ale_c_build_dir = pcg_build_dir
+" endif
 
 "let g:ale_c_build_dir = dpi_build_dir
 "let g:ale_cpp_build_dir = dpi_build_dir
 let g:ale_c_parse_compile_commands = 1
-let g:ale_c_build_dir_names = ['build', 'bin', 'buildout', 'epg', 'cmake_build']
+let g:ale_c_build_dir_names = ['build', 'cmake_build']
 let g:ale_fix_on_save=1
 let g:ale_set_balloons = 1
 let g:ale_hover_cursor = 1
@@ -622,6 +666,8 @@ let g:ale_floating_preview =1
 let g:ale_cursor_detail=1
 let g:ale_echo_delay=200 "Milliseconds
 let g:ale_close_preview_on_insert=0
+"Default navigation to new files
+let g:ale_default_navigation = 'buffer'
 
 "Automatic Hovering
 augroup ale_hover_cursor
@@ -635,7 +681,9 @@ nnoremap <Leader>ap :ALEPrevious<CR>
 nnoremap <Leader>afr :ALEFindReferences<CR>
 nnoremap <Leader>afq :ALEFindReferences -quickfix<CR> :copen<CR>
 nnoremap <Leader>af :ALEFix<CR>
-nnoremap <Leader>agdd :ALEGoToDefinition<CR>
+nnoremap <Leader>agd :ALEGoToDefinition<CR>
+nnoremap <Leader>agi :ALEGoToImplementation<CR>
+nnoremap <Leader>agtd :ALEGoToTypeDefinition<CR>
 
 
 
@@ -755,6 +803,13 @@ function GrepWORDInFileDirectory()
     :copen
 endfunction
 
+function GrepWordFromCommandLine(wordToGrep)
+    ":grep -srI --color=never a:wordToGrep *
+    :execute 'grep -srI --color=never ' . a:wordToGrep . ' .'
+    :copen
+endfunction
+
+
 """"""""""""""""""SWSwitch"""""""""""""""""
 "Remainder, the command is :SWSwitch<CR>
 "
@@ -854,10 +909,10 @@ vnoremap <Leader>sus :s/\(\S\)\([-+=?:*]\)\([^>=]\)/\1 \2 \3/g<CR>
 
 
 """""""""""""""Blamer plugin""""""""""""""""""""""""""""""""""""""""""
-let g:blamer_enabled = 0 "De momento, deshabilitado, por lento.
-" if has('nvim')
-"   let g:blamer_enabled = 1
-" endif
+let g:blamer_enabled = 0 "De momento, deshabilitado, por lento
+if has('nvim')
+   let g:blamer_enabled = 1
+endif
 let g:blamer_delay = 500
 let g:blamer_prefix = ' > '
 
@@ -867,13 +922,20 @@ map <C-Right> :tabnext<CR>
 """"""Navigate buffers"""""""""""""
 nmap bn :bn<CR>
 nmap bp :bp<CR>
+"""""Navigate quickfix list"""""""""""
+nmap cn :cn<CR>
+nmap cp :cp<CR>
 
 """"""""""Buffergator config""""""""""""""""""""""""""
 let g:buffergator_autodismiss_on_select=0
 let g:buffergator_autoupdate=1
 
+"""""""""""""""""Conqueterm config"""""""""""""""""""""
+nnoremap _bash :ConqueTerm bash<CR>
+nnoremap _tcsh :ConqueTerm tcsh<CR>
+
 """""""""""""""""""Quickui""""""""""""""""""""""""""""
-source ~/quickui_config.vim
+"source ~/quickui_config.vim
 
 
 """"""""""""""Not configuration, but vim commands """""""
@@ -882,7 +944,40 @@ source ~/quickui_config.vim
 "Ctrl + ^ --> Change between current and alternate files
 "--Surround plugin--"
 "Select in visual mode then press S+char --> Surround selected with char
+"normal mode : di{ --> Delete surrounding {
+"
+"
+"<C-w>o -->Make this window the only window
+"<C-^>  -->Alternate between this file and alternate file
+"<C-w><C-w> --> Change to next window
 "
 "See mapping of a command :verbose map whatever
+""""" Startify commands 
 
+" 2) The plugin eases the handling of loading and saving sessions by putting
+"    sessions in a central directory.
+
+"       :SLoad       load a session    |startify-:SLoad|
+"       :SSave[!]    save a session    |startify-:SSave|
+"       :SDelete[!]  delete a session  |startify-:SDelete|
+"       :SClose      close a session   |startify-:SClose|
+
+"    If ! is given, you won't get prompted.
+
+"    It also supports session persistence, so once a session is loaded, it gets
+"    saved automatically when Vim is quit: |g:startify_session_persistence|
+
+"Close preview windows
+" CTRL-W z					*CTRL-W_z*
+" CTRL-W CTRL-Z					*CTRL-W_CTRL-Z* *:pc* *:pclose*
+" :pc[lose][!]	Close any "Preview" window currently open.  When the 'hidden'
+" 		option is set, or when the buffer was changed and the [!] is
+" 		used, the buffer becomes hidden (unless there is another
+" 		window editing it).  The command fails if any "Preview" buffer
+" 		cannot be closed.  See also |:close|.
+"
+"Reformat some Text
+"Select the lines you want to reformat with v or V
+"Then press gq
+"That's it
 """""""""""""End commands""""""""""""""""""""""""""""""""
